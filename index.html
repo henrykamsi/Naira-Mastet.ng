@@ -4430,7 +4430,7 @@
                         <div><span style="font-size:12px;color:var(--text-muted);">Reward</span><p style="font-weight:700;color:var(--primary);">${formatNaira(task.reward)}</p></div>
                     </div>
                     <div style="display:flex;gap:8px;margin-top:12px;">
-                        <a href="${formattedLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex:1;">Perform</a>
+                          <a href="${task.link}" target="_blank" class="btn btn-secondary" style="flex:1;">▶ Perform</a>
                         ${!performed && !isComplete ? `<button onclick="submitScreenshot('${actualTaskId}')" class="btn btn-primary" style="flex:1;">📷 Submit</button>` : (performed ? '<span class="badge badge-success" style="padding:10px 20px;">✅ Submitted</span>' : '<span class="badge badge-warning" style="padding:10px 20px;">🔒 Full</span>')}
                     </div>
                 `;
