@@ -1,0 +1,3631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <title>NairaMaster.ng - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+           COMPLETE ADMIN CSS - PROFESSIONAL DASHBOARD
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A6C3A;
+            --primary-dark: #064A26;
+            --primary-light: #E8F5EE;
+            --primary-gradient: linear-gradient(135deg, #0A6C3A, #064A26);
+            --background: #f0f2f5;
+            --card: #ffffff;
+            --border: #e9ecef;
+            --text: #1a1a2e;
+            --text-secondary: #6c757d;
+            --text-muted: #adb5bd;
+            --destructive: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+
+        .dark {
+            --background: #0f0f1a;
+            --card: #1a1a2e;
+            --border: #2d2d44;
+            --text: #e8e8f0;
+            --text-secondary: #9a9ab0;
+            --text-muted: #6a6a80;
+            --primary-light: #1a3a2a;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            transition: var(--transition);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            border: none;
+            background: none;
+        }
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+            outline: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        /* ─── SIDEBAR ────────────────────────────────────────────── */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar .logo img {
+            height: 36px;
+            width: 36px;
+            border-radius: 8px;
+        }
+
+        .sidebar .logo span {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .sidebar .logo .admin-badge {
+            font-size: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            padding: 12px 0;
+        }
+
+        .sidebar-nav .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav .nav-item:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .sidebar-nav .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-nav .nav-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-nav .nav-item .badge {
+            margin-left: auto;
+            background: var(--destructive);
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 700;
+        }
+
+        .sidebar-nav .nav-section {
+            padding: 8px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-footer .user-info .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .sidebar-footer .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .sidebar-footer .user-info .email {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-footer .logout-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--destructive);
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .sidebar-footer .logout-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* ─── SIDEBAR OVERLAY ────────────────────────────────────── */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* ─── MAIN CONTENT ────────────────────────────────────────── */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── HEADER ──────────────────────────────────────────────── */
+        .header {
+            height: var(--header-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: var(--card);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header .menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .header .page-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header .header-actions .notif-btn {
+            position: relative;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .header .header-actions .notif-btn:hover {
+            color: var(--text);
+        }
+
+        .header .header-actions .notif-btn .notif-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 10px;
+            height: 10px;
+            background: var(--destructive);
+            border-radius: 50%;
+            border: 2px solid var(--card);
+        }
+
+        .header .header-actions .dark-toggle {
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .header .header-actions .dark-toggle:hover {
+            color: var(--text);
+        }
+
+        .header .header-actions .admin-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* ─── CONTENT ────────────────────────────────────────────── */
+        .content {
+            flex: 1;
+            padding: 24px;
+        }
+
+        /* ─── STATS CARDS ────────────────────────────────────────── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .stat-card .stat-change.up {
+            color: var(--success);
+        }
+
+        .stat-card .stat-change.down {
+            color: var(--destructive);
+        }
+
+        /* ─── CARDS ───────────────────────────────────────────────── */
+        .admin-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-card .card-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .admin-card .card-header .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ─── BUTTONS ────────────────────────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(10, 108, 58, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn-outline {
+            border-color: var(--border);
+            color: var(--text);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-destructive {
+            background: var(--destructive);
+            color: white;
+        }
+
+        .btn-destructive:hover {
+            background: #b91c1c;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #d4a000;
+        }
+
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ─── INPUTS ──────────────────────────────────────────────── */
+        .input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--text);
+            font-size: 14px;
+            transition: border var(--transition);
+        }
+
+        .input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(10, 108, 58, 0.1);
+        }
+
+        .input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .select {
+            appearance: none;
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .select:focus {
+            border-color: var(--primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2,
+            .grid-3,
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── TABLE ───────────────────────────────────────────────── */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        table td {
+            padding: 10px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        table tr:hover {
+            background: var(--border);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.online {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.offline {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.approved {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-badge.declined {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .online-dot.online {
+            background: #28a745;
+        }
+
+        .online-dot.offline {
+            background: #dc3545;
+        }
+
+        /* ─── TOAST ───────────────────────────────────────────────── */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 360px;
+            width: 100%;
+        }
+
+        .toast {
+            padding: 14px 18px;
+            border-radius: var(--radius);
+            background: var(--card);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            animation: slideUp 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--destructive);
+        }
+
+        .toast-warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .toast-info {
+            border-left: 4px solid var(--info);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── MODAL ───────────────────────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: var(--radius);
+            max-width: 600px;
+            width: 100%;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ─── LOADING ──────────────────────────────────────────────── */
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+        }
+
+        .loading-overlay .loading-box {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .loading-overlay .loading-box .spinner {
+            margin: 0 auto 16px;
+        }
+
+        /* ─── RESPONSIVE ──────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header .menu-btn {
+                display: block;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .header .page-title {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 0 12px;
+            }
+
+            .content {
+                padding: 12px;
+            }
+
+            .modal {
+                padding: 16px;
+            }
+
+            .admin-card {
+                padding: 14px;
+            }
+        }
+
+        /* ─── EMPTY STATE ────────────────────────────────────────── */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.3;
+        }
+
+        /* ─── SEARCH BAR ─────────────────────────────────────────── */
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar .input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-bar .select {
+            width: auto;
+            min-width: 150px;
+        }
+
+        /* ─── SHUTDOWN CUP BANNER ─────────────────────────────────── */
+        .shutdown-cup-banner {
+            background: var(--warning);
+            color: #333;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .shutdown-cup-banner .countdown {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* ─── TOGGLE ───────────────────────────────────────────────── */
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--border);
+            border-radius: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .toggle.active {
+            background: var(--primary);
+        }
+
+        .toggle .thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.active .thumb {
+            left: 22px;
+        }
+
+        /* ─── TAG / PILL ──────────────────────────────────────────── */
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .pill.duplicate {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .pill.unique {
+            background: #dcfce7;
+            color: #166534;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── TOAST CONTAINER ──────────────────────────────────────── -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ─── LOADING OVERLAY ──────────────────────────────────────── -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <p style="font-weight:600;color:var(--text);">Loading...</p>
+        </div>
+    </div>
+
+    <!-- ─── SIDEBAR OVERLAY ──────────────────────────────────────── -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <!-- ─── APP ──────────────────────────────────────────────────── -->
+    <div id="app">
+
+        <!-- ─── SIDEBAR ──────────────────────────────────────────── -->
+        <div id="sidebar" class="sidebar">
+            <div class="logo">
+                <img src="https://cdn.phototourl.com/free/2026-07-18-edf62e79-cb03-48b6-a74a-345e7ea2db36.jpg" alt="NairaMaster" />
+                <span>NairaMaster</span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebarNav">
+                <div class="nav-section">Main</div>
+                <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+                    <span class="icon">📊</span> Dashboard
+                </div>
+
+                <div class="nav-section">Management</div>
+                <div class="nav-item" data-page="users" onclick="navigate('users')">
+                    <span class="icon">👥</span> Total Users
+                    <span class="badge" id="userBadge">0</span>
+                </div>
+                <div class="nav-item" data-page="tasks" onclick="navigate('tasks')">
+                    <span class="icon">📋</span> Total Tasks
+                    <span class="badge" id="taskBadge">0</span>
+                </div>
+                <div class="nav-item" data-page="submissions" onclick="navigate('submissions')">
+                    <span class="icon">✅</span> Pending Submissions
+                    <span class="badge" id="submissionBadge">0</span>
+                </div>
+                <div class="nav-item" data-page="withdrawals" onclick="navigate('withdrawals')">
+                    <span class="icon">💰</span> Withdrawals
+                    <span class="badge" id="withdrawalBadge">0</span>
+                </div>
+
+                <div class="nav-section">Rewards & Payments</div>
+                <div class="nav-item" data-page="rewards" onclick="navigate('rewards')">
+                    <span class="icon">🎁</span> Rewards
+                </div>
+                <div class="nav-item" data-page="firstpayment" onclick="navigate('firstpayment')">
+                    <span class="icon">💳</span> First Payment
+                </div>
+                <div class="nav-item" data-page="transactions" onclick="navigate('transactions')">
+                    <span class="icon">📊</span> Transactions
+                </div>
+
+                <div class="nav-section">Communication</div>
+                <div class="nav-item" data-page="tiercomposer" onclick="navigate('tiercomposer')">
+                    <span class="icon">📬</span> Tier Composer
+                </div>
+                <div class="nav-item" data-page="popups" onclick="navigate('popups')">
+                    <span class="icon">📢</span> Popup Messages
+                </div>
+
+                <div class="nav-section">System</div>
+                <div class="nav-item" data-page="shutdown" onclick="navigate('shutdown')">
+                    <span class="icon">⏰</span> APP Shutdown
+                </div>
+                <div class="nav-item" data-page="shutdowncup" onclick="navigate('shutdowncup')">
+                    <span class="icon">⚙️</span> Shutdown Cup
+                </div>
+                <div class="nav-item" data-page="settings" onclick="navigate('settings')">
+                    <span class="icon">⚙️</span> System Settings
+                </div>
+                <div class="nav-item" data-page="appcontent" onclick="navigate('appcontent')">
+                    <span class="icon">📺</span> App Content
+                </div>
+
+                <div class="nav-section">Admin Tools</div>
+                <div class="nav-item" data-page="duplicates" onclick="navigate('duplicates')">
+                    <span class="icon">📋</span> Duplicate Tasks
+                </div>
+                <div class="nav-item" data-page="notifications" onclick="navigate('notifications')">
+                    <span class="icon">🔔</span> Admin Notifications
+                </div>
+                <div class="nav-item" data-page="earnings" onclick="navigate('earnings')">
+                    <span class="icon">💰</span> Admin Earnings
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar" id="adminAvatar">A</div>
+                    <div>
+                        <div class="name" id="adminName">Admin</div>
+                        <div class="email" id="adminEmail">admin@domain.com</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="adminLogout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- ─── MAIN CONTENT ──────────────────────────────────────── -->
+        <div class="main-content">
+
+            <!-- ─── HEADER ─────────────────────────────────────────── -->
+            <header class="header">
+                <div style="display:flex;align-items:center;gap:16px;">
+                    <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+                    <span class="page-title" id="pageTitle">Dashboard</span>
+                </div>
+                <div class="header-actions">
+                    <span class="dark-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</span>
+                    <div class="notif-btn" onclick="navigate('notifications')">
+                        🔔
+                        <span class="notif-dot" id="adminNotifDot"></span>
+                    </div>
+                    <div class="admin-avatar" id="headerAvatar" onclick="navigate('settings')">A</div>
+                </div>
+            </header>
+
+            <!-- ─── CONTENT ────────────────────────────────────────── -->
+            <div class="content" id="pageContent">
+                <!-- Content will be rendered here -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+    <script>
+        // ============================================================
+        // NAIRAMASTER.NG - ADMIN DASHBOARD v1.0
+        // COMPLETE ADMIN PANEL - ALL SECTIONS
+        // ============================================================
+
+        // ─── CONFIGURATIONS ───────────────────────────────────────────
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhxYg140CQePqQvxqxwxAN9znbwhZuCDU",
+            authDomain: "hgt-naira-master.firebaseapp.com",
+            projectId: "hgt-naira-master",
+            storageBucket: "hgt-naira-master.firebasestorage.app",
+            messagingSenderId: "709693242234",
+            appId: "1:709693242234:web:3df7554781e3b5f465f4c3",
+            measurementId: "G-JJK4G9406L"
+        };
+
+        const supabaseUrl = "https://hxulzgebiobitswhzuee.supabase.co";
+        const supabaseAnonKey =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4dWx6Z2ViaW9iaXRzd2h6dWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjg2NDgsImV4cCI6MjA5OTkwNDY0OH0.UCMq0uCo1Gr698jfp3toZ1sBsoA_07-A1J_SdPpHp9s";
+        const bucketName = "Screenshot";
+
+        const TELEGRAM_BOT_TOKEN = "8988039634:AAGWGL7uDq7KPo73lRKIWYoBtmcZPv7B4m4";
+        const TELEGRAM_CHAT_ID = "7806972788";
+
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        const auth = firebase.auth();
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        const CONFIG = {
+            WHATSAPP_NUMBER: "2349118310148",
+            APP_NAME: "NairaMaster.ng",
+            BANK_NAME: "OPAY",
+            BANK_ACCOUNT: "9118310148",
+            BANK_ACCOUNT_NAME: "HENRY KAMSI OKWUABUDIKE",
+        };
+
+        // ─── STATE ────────────────────────────────────────────────────
+        let currentUser = null;
+        let currentPage = 'dashboard';
+        let isDarkMode = localStorage.getItem('admin_dark') === 'true';
+        let userDataCache = {};
+        let unsubscribeListeners = [];
+        let notifications = [];
+        let allUsers = [];
+        let allTasks = [];
+        let allSubmissions = [];
+        let allWithdrawals = [];
+        let allTransactions = [];
+        let allRewards = [];
+        let allWhitelist = [];
+
+        // ─── HELPERS ──────────────────────────────────────────────────
+        function formatNaira(amount) {
+            return `₦${Number(amount).toFixed(2)}`;
+        }
+
+        function formatDateTime(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleString('en-NG', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-NG', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+
+        function toast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const el = document.createElement('div');
+            el.className = `toast toast-${type}`;
+            el.textContent = message;
+            container.appendChild(el);
+            setTimeout(() => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                setTimeout(() => el.remove(), 300);
+            }, 3500);
+        }
+
+        function getDynamicGreeting() {
+            const h = new Date().getHours();
+            if (h >= 5 && h < 12) return 'Good morning';
+            if (h >= 12 && h < 17) return 'Good afternoon';
+            if (h >= 17 && h < 21) return 'Good evening';
+            return 'Good night';
+        }
+
+        // ─── SIDEBAR ──────────────────────────────────────────────────
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
+
+        // ─── TOAST ────────────────────────────────────────────────────
+        function toast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const el = document.createElement('div');
+            el.className = `toast toast-${type}`;
+            el.textContent = message;
+            container.appendChild(el);
+            setTimeout(() => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                setTimeout(() => el.remove(), 300);
+            }, 3500);
+        }
+
+        // ─── DARK MODE ───────────────────────────────────────────────
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('admin_dark', String(isDarkMode));
+            document.documentElement.classList.toggle('dark', isDarkMode);
+            const btn = document.querySelector('.dark-toggle');
+            if (btn) btn.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        // ─── ADMIN LOGIN ─────────────────────────────────────────────
+        async function initAdmin() {
+            const user = auth.currentUser;
+            if (!user) {
+                // Not logged in - redirect to login
+                window.location.href = '/admin-login.html';
+                return;
+            }
+
+            // Check if user is admin
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (!userDoc.exists || !userDoc.data().isAdmin) {
+                toast('❌ You are not an admin!', 'error');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                return;
+            }
+
+            currentUser = { ...userDoc.data(), uid: user.uid };
+            document.getElementById('adminName').textContent = currentUser.firstName || 'Admin';
+            document.getElementById('adminEmail').textContent = currentUser.email || '';
+            document.getElementById('adminAvatar').textContent = (currentUser.firstName || 'A')[0];
+            document.getElementById('headerAvatar').textContent = (currentUser.firstName || 'A')[0];
+
+            // Load data
+            await loadAllData();
+            setupListeners();
+            navigate('dashboard');
+        }
+
+        // ─── LOAD ALL DATA ───────────────────────────────────────────
+        async function loadAllData() {
+            showLoading(true);
+            try {
+                const [users, tasks, submissions, withdrawals, transactions, rewards, whitelist] = await Promise.all([
+                    db.collection('users').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    db.collection('tasks').where('status', '!=', 'deleted').get().then(s => s.docs.map(d => ({ id: d
+                            .id, ...d.data() }))),
+                    db.collection('submissions').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    db.collection('withdrawals').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    db.collection('transactions').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    db.collection('rewards').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    db.collection('whitelist').get().then(s => s.docs.map(d => ({ id: d.id, ...d.data() })))
+                ]);
+
+                allUsers = users;
+                allTasks = tasks;
+                allSubmissions = submissions;
+                allWithdrawals = withdrawals;
+                allTransactions = transactions;
+                allRewards = rewards;
+                allWhitelist = whitelist;
+
+                // Update badges
+                document.getElementById('userBadge').textContent = users.length;
+                document.getElementById('taskBadge').textContent = tasks.length;
+                document.getElementById('submissionBadge').textContent = submissions.filter(s => s.status === 'pending')
+                    .length;
+                document.getElementById('withdrawalBadge').textContent = withdrawals.filter(w => w.status === 'pending')
+                    .length;
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                toast('Error loading data: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        // ─── SETUP LISTENERS ─────────────────────────────────────────
+        function setupListeners() {
+            // Users listener
+            const userUnsub = db.collection('users').onSnapshot((snapshot) => {
+                allUsers = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('userBadge').textContent = allUsers.length;
+                if (currentPage === 'users') navigate('users');
+                if (currentPage === 'dashboard') navigate('dashboard');
+            });
+            unsubscribeListeners.push(userUnsub);
+
+            // Tasks listener
+            const taskUnsub = db.collection('tasks').where('status', '!=', 'deleted').onSnapshot((snapshot) => {
+                allTasks = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('taskBadge').textContent = allTasks.length;
+                if (currentPage === 'tasks') navigate('tasks');
+                if (currentPage === 'dashboard') navigate('dashboard');
+            });
+            unsubscribeListeners.push(taskUnsub);
+
+            // Submissions listener
+            const subUnsub = db.collection('submissions').onSnapshot((snapshot) => {
+                allSubmissions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                const pending = allSubmissions.filter(s => s.status === 'pending').length;
+                document.getElementById('submissionBadge').textContent = pending;
+                if (currentPage === 'submissions') navigate('submissions');
+                if (currentPage === 'dashboard') navigate('dashboard');
+            });
+            unsubscribeListeners.push(subUnsub);
+
+            // Withdrawals listener
+            const wdUnsub = db.collection('withdrawals').onSnapshot((snapshot) => {
+                allWithdrawals = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                const pending = allWithdrawals.filter(w => w.status === 'pending').length;
+                document.getElementById('withdrawalBadge').textContent = pending;
+                if (currentPage === 'withdrawals') navigate('withdrawals');
+                if (currentPage === 'dashboard') navigate('dashboard');
+            });
+            unsubscribeListeners.push(wdUnsub);
+
+            // Transactions listener
+            const txUnsub = db.collection('transactions').onSnapshot((snapshot) => {
+                allTransactions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                if (currentPage === 'transactions') navigate('transactions');
+                if (currentPage === 'dashboard') navigate('dashboard');
+            });
+            unsubscribeListeners.push(txUnsub);
+
+            // Rewards listener
+            const rewardUnsub = db.collection('rewards').onSnapshot((snapshot) => {
+                allRewards = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                if (currentPage === 'rewards') navigate('rewards');
+            });
+            unsubscribeListeners.push(rewardUnsub);
+
+            // Whitelist listener
+            const wlUnsub = db.collection('whitelist').onSnapshot((snapshot) => {
+                allWhitelist = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                if (currentPage === 'firstpayment') navigate('firstpayment');
+            });
+            unsubscribeListeners.push(wlUnsub);
+
+            console.log('✅ All admin listeners active');
+        }
+
+        // ─── NAVIGATION ──────────────────────────────────────────────
+        function navigate(page) {
+            currentPage = page;
+            const content = document.getElementById('pageContent');
+            const sidebarNav = document.getElementById('sidebarNav');
+            const pageTitle = document.getElementById('pageTitle');
+
+            // Update sidebar
+            sidebarNav.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.dataset.page === page) el.classList.add('active');
+            });
+
+            // Update page title
+            const titles = {
+                dashboard: '📊 Dashboard',
+                users: '👥 Total Users',
+                tasks: '📋 Total Tasks',
+                submissions: '✅ Pending Submissions',
+                withdrawals: '💰 Withdrawals',
+                rewards: '🎁 Rewards',
+                firstpayment: '💳 First Payment',
+                transactions: '📊 Transaction History',
+                tiercomposer: '📬 Tier Composer',
+                popups: '📢 Popup Messages',
+                shutdown: '⏰ APP Shutdown',
+                shutdowncup: '⚙️ Shutdown Cup',
+                settings: '⚙️ System Settings',
+                appcontent: '📺 App Content',
+                duplicates: '📋 Duplicate Tasks',
+                notifications: '🔔 Admin Notifications',
+                earnings: '💰 Admin Earnings'
+            };
+            pageTitle.textContent = titles[page] || page;
+
+            // Render page
+            showLoading(true);
+            setTimeout(() => {
+                switch (page) {
+                    case 'dashboard':
+                        content.innerHTML = renderDashboard();
+                        break;
+                    case 'users':
+                        content.innerHTML = renderUsers();
+                        break;
+                    case 'tasks':
+                        content.innerHTML = renderTasks();
+                        break;
+                    case 'submissions':
+                        content.innerHTML = renderSubmissions();
+                        break;
+                    case 'withdrawals':
+                        content.innerHTML = renderWithdrawals();
+                        break;
+                    case 'rewards':
+                        content.innerHTML = renderRewards();
+                        break;
+                    case 'firstpayment':
+                        content.innerHTML = renderFirstPayment();
+                        break;
+                    case 'transactions':
+                        content.innerHTML = renderTransactions();
+                        break;
+                    case 'tiercomposer':
+                        content.innerHTML = renderTierComposer();
+                        break;
+                    case 'popups':
+                        content.innerHTML = renderPopups();
+                        break;
+                    case 'shutdown':
+                        content.innerHTML = renderShutdown();
+                        break;
+                    case 'shutdowncup':
+                        content.innerHTML = renderShutdownCup();
+                        break;
+                    case 'settings':
+                        content.innerHTML = renderSettings();
+                        break;
+                    case 'appcontent':
+                        content.innerHTML = renderAppContent();
+                        break;
+                    case 'duplicates':
+                        content.innerHTML = renderDuplicates();
+                        break;
+                    case 'notifications':
+                        content.innerHTML = renderNotifications();
+                        break;
+                    case 'earnings':
+                        content.innerHTML = renderEarnings();
+                        break;
+                    default:
+                        content.innerHTML = renderDashboard();
+                }
+                showLoading(false);
+                closeSidebar();
+            }, 100);
+        }
+
+        // ============================================================
+        // RENDER FUNCTIONS
+        // ============================================================
+
+        // ─── DASHBOARD ────────────────────────────────────────────────
+        function renderDashboard() {
+            const totalUsers = allUsers.length;
+            const onlineUsers = allUsers.filter(u => u.isOnline).length;
+            const totalTasks = allTasks.length;
+            const pendingSubs = allSubmissions.filter(s => s.status === 'pending').length;
+            const pendingWds = allWithdrawals.filter(w => w.status === 'pending').length;
+            const totalRevenue = allTransactions.filter(t => t.type === 'fee').reduce((s, t) => s + (t.amount || 0), 0);
+            const totalPaidOut = allWithdrawals.filter(w => w.status === 'approved').reduce((s, w) => s + (w.amount || 0), 0);
+            const today = getTodayString();
+            const todayUsers = allUsers.filter(u => u.createdAt && u.createdAt.startsWith(today)).length;
+
+            return `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-number">${totalUsers}</div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-change up">🟢 ${onlineUsers} Online</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-number">${totalTasks}</div>
+                        <div class="stat-label">Total Tasks</div>
+                        <div class="stat-change up">✅ ${allTasks.filter(t => t.status === 'active').length} Active</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-number">${pendingSubs}</div>
+                        <div class="stat-label">Pending Submissions</div>
+                        <div class="stat-change ${pendingSubs > 0 ? 'up' : 'down'}">${pendingSubs > 0 ? '⏳ Awaiting review' : '✅ All reviewed'}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-number">${pendingWds}</div>
+                        <div class="stat-label">Pending Withdrawals</div>
+                        <div class="stat-change ${pendingWds > 0 ? 'up' : 'down'}">${pendingWds > 0 ? '⏳ Awaiting review' : '✅ All processed'}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-number">${formatNaira(totalRevenue)}</div>
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-change up">📈 ${todayUsers} new users today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💳</div>
+                        <div class="stat-number">${formatNaira(totalPaidOut)}</div>
+                        <div class="stat-label">Total Paid Out</div>
+                        <div class="stat-change down">💰 ${allWithdrawals.filter(w => w.status === 'pending').length} pending</div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 Recent Activity</h3>
+                        <button class="btn btn-sm btn-outline" onclick="navigate('transactions')">View All</button>
+                    </div>
+                    ${allTransactions.slice(0, 10).map(tx => {
+                        const user = allUsers.find(u => u.id === tx.userId || u.uid === tx.userId);
+                        return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                            <div>
+                                <span style="font-weight:600;">${user?.firstName || 'Unknown'}</span>
+                                <span style="color:var(--text-muted);font-size:13px;margin-left:8px;">${tx.description || tx.type}</span>
+                            </div>
+                            <div style="font-weight:700;color:${tx.type === 'credit' || tx.type === 'reward' ? 'var(--success)' : 'var(--destructive)'};">
+                                ${tx.type === 'credit' || tx.type === 'reward' ? '+' : '-'}${formatNaira(tx.amount || 0)}
+                            </div>
+                        </div>`;
+                    }).join('') || '<div class="empty-state"><div class="icon">📊</div><p>No transactions yet</p></div>'}
+                </div>
+
+                <div style="text-align:center;font-size:12px;color:var(--text-muted);padding:12px;">
+                    🔴 Live • Real-time updates • ${getDynamicGreeting()}, ${currentUser?.firstName || 'Admin'}!
+                </div>
+            `;
+        }
+
+        // ─── USERS ────────────────────────────────────────────────────
+        function renderUsers() {
+            const onlineUsers = allUsers.filter(u => u.isOnline);
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>👥 All Users (${allUsers.length})</h3>
+                        <div style="display:flex;gap:8px;">
+                            <span class="status-badge online">🟢 ${onlineUsers.length} Online</span>
+                            <span class="status-badge offline">⚪ ${allUsers.length - onlineUsers.length} Offline</span>
+                        </div>
+                    </div>
+
+                    <div class="search-bar">
+                        <input type="text" id="userSearch" class="input" placeholder="Search by name, email, ID..." oninput="filterUsers()" />
+                        <select id="userTierFilter" class="select" onchange="filterUsers()">
+                            <option value="all">All Tiers</option>
+                            <option value="cobra">🐍 Cobra</option>
+                            <option value="lieutenant">⭐ Lieutenant</option>
+                            <option value="commander">👑 Commander</option>
+                            <option value="general">🏆 General</option>
+                        </select>
+                        <select id="userStatusFilter" class="select" onchange="filterUsers()">
+                            <option value="all">All Status</option>
+                            <option value="online">🟢 Online</option>
+                            <option value="offline">⚪ Offline</option>
+                        </select>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Tier</th>
+                                    <th>Tasks Today</th>
+                                    <th>Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                ${allUsers.map(u => `
+                                    <tr>
+                                        <td><span class="online-dot ${u.isOnline ? 'online' : 'offline'}"></span>${u.isOnline ? 'Online' : 'Offline'}</td>
+                                        <td><strong>${u.firstName || 'Unknown'} ${u.lastName || ''}</strong></td>
+                                        <td style="color:var(--text-muted);font-size:13px;">${u.email || 'N/A'}</td>
+                                        <td><span class="pill" style="background:${u.tier === 'cobra' ? '#e5e7eb' : u.tier === 'lieutenant' ? '#dbeafe' : u.tier === 'commander' ? '#fef3c7' : '#fef9c3'};color:${u.tier === 'cobra' ? '#374151' : u.tier === 'lieutenant' ? '#1d4ed8' : u.tier === 'commander' ? '#92400e' : '#713f12'};">${u.tier?.toUpperCase() || 'COBRA'}</span></td>
+                                        <td>${u.tasksPerformedToday || 0}</td>
+                                        <td style="font-weight:700;">${formatNaira(u.balance || 0)}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="showUserActions('${u.uid || u.id}')">⚙️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('userSearch').value.toLowerCase();
+            const tier = document.getElementById('userTierFilter').value;
+            const status = document.getElementById('userStatusFilter').value;
+            const tbody = document.getElementById('userTableBody');
+
+            const filtered = allUsers.filter(u => {
+                const matchSearch = (u.firstName || '').toLowerCase().includes(search) ||
+                    (u.lastName || '').toLowerCase().includes(search) ||
+                    (u.email || '').toLowerCase().includes(search) ||
+                    String(u.id || '').includes(search);
+                const matchTier = tier === 'all' || u.tier === tier;
+                const matchStatus = status === 'all' || (status === 'online' ? u.isOnline : !u.isOnline);
+                return matchSearch && matchTier && matchStatus;
+            });
+
+            tbody.innerHTML = filtered.map(u => `
+                <tr>
+                    <td><span class="online-dot ${u.isOnline ? 'online' : 'offline'}"></span>${u.isOnline ? 'Online' : 'Offline'}</td>
+                    <td><strong>${u.firstName || 'Unknown'} ${u.lastName || ''}</strong></td>
+                    <td style="color:var(--text-muted);font-size:13px;">${u.email || 'N/A'}</td>
+                    <td><span class="pill" style="background:${u.tier === 'cobra' ? '#e5e7eb' : u.tier === 'lieutenant' ? '#dbeafe' : u.tier === 'commander' ? '#fef3c7' : '#fef9c3'};color:${u.tier === 'cobra' ? '#374151' : u.tier === 'lieutenant' ? '#1d4ed8' : u.tier === 'commander' ? '#92400e' : '#713f12'};">${u.tier?.toUpperCase() || 'COBRA'}</span></td>
+                    <td>${u.tasksPerformedToday || 0}</td>
+                    <td style="font-weight:700;">${formatNaira(u.balance || 0)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="showUserActions('${u.uid || u.id}')">⚙️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ─── USER ACTIONS MODAL ──────────────────────────────────────
+        function showUserActions(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                        <h3 style="font-size:18px;font-weight:800;">👤 ${user.firstName || 'User'} ${user.lastName || ''}</h3>
+                        <button onclick="this.closest('.modal-overlay').remove()" style="font-size:24px;cursor:pointer;color:var(--text-muted);">✕</button>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                        <div><span style="color:var(--text-muted);font-size:12px;">Email</span><p style="font-weight:600;">${user.email || 'N/A'}</p></div>
+                        <div><span style="color:var(--text-muted);font-size:12px;">Tier</span><p style="font-weight:600;">${user.tier?.toUpperCase() || 'COBRA'}</p></div>
+                        <div><span style="color:var(--text-muted);font-size:12px;">Balance</span><p style="font-weight:700;color:var(--primary);">${formatNaira(user.balance || 0)}</p></div>
+                        <div><span style="color:var(--text-muted);font-size:12px;">Score</span><p style="font-weight:600;">${user.score || 0}/100</p></div>
+                        <div><span style="color:var(--text-muted);font-size:12px;">Tasks Today</span><p style="font-weight:600;">${user.tasksPerformedToday || 0}</p></div>
+                        <div><span style="color:var(--text-muted);font-size:12px;">Status</span><p style="font-weight:600;">${user.isOnline ? '🟢 Online' : '⚪ Offline'}</p></div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <button onclick="adminUpgradeUser('${user.uid || user.id}')" class="btn btn-primary btn-block">⬆️ Promote</button>
+                        <button onclick="adminDowngradeUser('${user.uid || user.id}')" class="btn btn-secondary btn-block">⬇️ Demote</button>
+                        <button onclick="adminToggleTrust('${user.uid || user.id}')" class="btn ${user.trustBadge ? 'btn-secondary' : 'btn-success'} btn-block">${user.trustBadge ? 'Revoke Trust' : 'Grant Trust'}</button>
+                        <button onclick="adminShadowBanUser('${user.uid || user.id}')" class="btn btn-warning btn-block">👻 Shadow Ban</button>
+                        <button onclick="adminDeductBalance('${user.uid || user.id}')" class="btn btn-destructive btn-block">💰 Deduct Money</button>
+                        <button onclick="adminBlockWithdraw('${user.uid || user.id}')" class="btn btn-warning btn-block">🚫 Block Withdraw</button>
+                        <button onclick="adminBlockTask('${user.uid || user.id}')" class="btn btn-warning btn-block">🚫 Block Tasks</button>
+                        <button onclick="adminSendUserPopup('${user.uid || user.id}')" class="btn btn-primary btn-block">📬 Send Popup</button>
+                        <button onclick="adminDeleteUser('${user.uid || user.id}')" class="btn btn-destructive btn-block" style="grid-column:span 2;">🗑️ Delete User</button>
+                    </div>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:12px;">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // ─── USER ACTION FUNCTIONS ──────────────────────────────────
+        async function adminUpgradeUser(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const tiers = ['cobra', 'lieutenant', 'commander', 'general'];
+            const currentIndex = tiers.indexOf(user.tier);
+            if (currentIndex >= tiers.length - 1) return toast('Already at highest tier', 'warning');
+            const newTier = tiers[currentIndex + 1];
+            await db.collection('users').doc(userId).update({ tier: newTier });
+            toast(`✅ Upgraded to ${newTier.toUpperCase()}!`, 'success');
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminDowngradeUser(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const tiers = ['cobra', 'lieutenant', 'commander', 'general'];
+            const currentIndex = tiers.indexOf(user.tier);
+            if (currentIndex <= 0) return toast('Already at lowest tier', 'warning');
+            const newTier = tiers[currentIndex - 1];
+            await db.collection('users').doc(userId).update({ tier: newTier });
+            toast(`⬇️ Downgraded to ${newTier.toUpperCase()}!`, 'success');
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminToggleTrust(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const newTrust = !user.trustBadge;
+            await db.collection('users').doc(userId).update({ trustBadge: newTrust });
+            toast(newTrust ? '✅ Trust granted!' : '❌ Trust revoked!', 'success');
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminShadowBanUser(userId) {
+            const options = [1, 3, 7, 14, 30, 9999];
+            const labels = options.map(d => d === 9999 ? 'Forever' : `${d} days`);
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">👻 Shadow Ban User</h3>
+                    <p style="color:var(--text-muted);margin-bottom:16px;">Select duration:</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+                        ${options.map((d, i) => `
+                            <button onclick="adminApplyShadowBan('${userId}', ${d})" class="btn btn-warning btn-block">${labels[i]}</button>
+                        `).join('')}
+                    </div>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminApplyShadowBan(userId, days) {
+            const until = new Date();
+            if (days === 9999) until.setFullYear(2099);
+            else until.setDate(until.getDate() + days);
+            await db.collection('users').doc(userId).update({
+                isShadowBanned: true,
+                shadowBanUntil: until.toISOString()
+            });
+            toast(`👻 Shadow banned${days === 9999 ? ' forever!' : ` for ${days} days!`}`, 'warning');
+            document.querySelector('.modal-overlay')?.remove();
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminDeductBalance(userId) {
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">💰 Deduct Money</h3>
+                    <div class="form-group">
+                        <label class="label">Amount to deduct (₦)</label>
+                        <input type="number" id="deductAmount" class="input" placeholder="Enter amount" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Reason</label>
+                        <input type="text" id="deductReason" class="input" placeholder="Reason for deduction" />
+                    </div>
+                    <button onclick="adminConfirmDeduct('${userId}')" class="btn btn-destructive btn-block">💰 Deduct</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:8px;">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminConfirmDeduct(userId) {
+            const amount = parseFloat(document.getElementById('deductAmount').value);
+            const reason = document.getElementById('deductReason').value.trim() || 'Admin deduction';
+            if (!amount || amount <= 0) return toast('Please enter a valid amount', 'error');
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const newBalance = Math.max(0, (user.balance || 0) - amount);
+            await db.collection('users').doc(userId).update({ balance: newBalance });
+            await db.collection('transactions').add({
+                userId: user.id || user.uid,
+                type: 'fee',
+                amount: amount,
+                description: `Deduction: ${reason}`,
+                createdAt: new Date().toISOString()
+            });
+            toast(`💰 ${formatNaira(amount)} deducted!`, 'warning');
+            document.querySelector('.modal-overlay')?.remove();
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminBlockWithdraw(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const newStatus = user.withdrawBlocked ? false : true;
+            await db.collection('users').doc(userId).update({ withdrawBlocked: newStatus });
+            toast(newStatus ? '🚫 Withdraw blocked!' : '✅ Withdraw unblocked!', 'success');
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminBlockTask(userId) {
+            const user = allUsers.find(u => u.uid === userId || u.id === userId);
+            if (!user) return toast('User not found', 'error');
+            const newStatus = user.taskBlocked ? false : true;
+            await db.collection('users').doc(userId).update({ taskBlocked: newStatus });
+            toast(newStatus ? '🚫 Tasks blocked!' : '✅ Tasks unblocked!', 'success');
+            await loadAllData();
+            navigate('users');
+        }
+
+        async function adminSendUserPopup(userId) {
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">📬 Send Popup to User</h3>
+                    <div class="form-group">
+                        <label class="label">Title</label>
+                        <input type="text" id="popupTitle" class="input" placeholder="Popup title" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Message</label>
+                        <textarea id="popupMessage" class="input" rows="4" placeholder="Popup message"></textarea>
+                    </div>
+                    <button onclick="adminConfirmUserPopup('${userId}')" class="btn btn-primary btn-block">📤 Send</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:8px;">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminConfirmUserPopup(userId) {
+            const title = document.getElementById('popupTitle').value.trim();
+            const message = document.getElementById('popupMessage').value.trim();
+            if (!title || !message) return toast('Please enter title and message', 'error');
+            await db.collection('popups').add({
+                title: title,
+                description: message,
+                targetTier: 'all',
+                targetUser: userId,
+                hasButton: false,
+                sendType: 'one-time',
+                sentAt: new Date().toISOString(),
+                active: true
+            });
+            toast('📬 Popup sent!', 'success');
+            document.querySelector('.modal-overlay')?.remove();
+            await loadAllData();
+        }
+
+        async function adminDeleteUser(userId) {
+            if (!confirm('⚠️ Are you sure you want to delete this user? This is permanent!')) return;
+            await db.collection('users').doc(userId).update({ status: 'deleted', deletedAt: new Date().toISOString() });
+            toast('🗑️ User deleted!', 'warning');
+            document.querySelector('.modal-overlay')?.remove();
+            await loadAllData();
+            navigate('users');
+        }
+
+        // ─── TASKS ────────────────────────────────────────────────────
+        function renderTasks() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 All Tasks (${allTasks.length})</h3>
+                        <button class="btn btn-primary btn-sm" onclick="adminCreateTask()">+ Create Task</button>
+                    </div>
+
+                    <div class="search-bar">
+                        <input type="text" id="taskSearch" class="input" placeholder="Search tasks..." oninput="filterTasks()" />
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Platform</th>
+                                    <th>Reward</th>
+                                    <th>Performers</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="taskTableBody">
+                                ${allTasks.map(t => `
+                                    <tr>
+                                        <td><strong>${t.title || 'Untitled'}</strong></td>
+                                        <td>${t.socialMedia || 'N/A'}</td>
+                                        <td style="color:var(--primary);font-weight:700;">${formatNaira(t.reward || 0)}</td>
+                                        <td>${t.performerCount || 0}/${t.maxPerformers || 20}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="adminEditTask('${t.id || t.taskId}')">✏️</button>
+                                            <button class="btn btn-sm btn-destructive" onclick="adminDeleteTask('${t.id || t.taskId}')">🗑️</button>
+                                            <button class="btn btn-sm btn-warning" onclick="adminRenewTask('${t.id || t.taskId}')">🔄</button>
+                                            <button class="btn btn-sm btn-secondary" onclick="adminRestrictTask('${t.id || t.taskId}')">🚫</button>
+                                            <button class="btn btn-sm btn-secondary" onclick="adminPauseTask('${t.id || t.taskId}')">⏸️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterTasks() {
+            const search = document.getElementById('taskSearch').value.toLowerCase();
+            const tbody = document.getElementById('taskTableBody');
+            const filtered = allTasks.filter(t => (t.title || '').toLowerCase().includes(search));
+            tbody.innerHTML = filtered.map(t => `
+                <tr>
+                    <td><strong>${t.title || 'Untitled'}</strong></td>
+                    <td>${t.socialMedia || 'N/A'}</td>
+                    <td style="color:var(--primary);font-weight:700;">${formatNaira(t.reward || 0)}</td>
+                    <td>${t.performerCount || 0}/${t.maxPerformers || 20}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="adminEditTask('${t.id || t.taskId}')">✏️</button>
+                        <button class="btn btn-sm btn-destructive" onclick="adminDeleteTask('${t.id || t.taskId}')">🗑️</button>
+                        <button class="btn btn-sm btn-warning" onclick="adminRenewTask('${t.id || t.taskId}')">🔄</button>
+                        <button class="btn btn-sm btn-secondary" onclick="adminRestrictTask('${t.id || t.taskId}')">🚫</button>
+                        <button class="btn btn-sm btn-secondary" onclick="adminPauseTask('${t.id || t.taskId}')">⏸️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ─── TASK ACTIONS ────────────────────────────────────────────
+        function adminCreateTask() {
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">📝 Create Task</h3>
+                    <div class="form-group"><label class="label">Title</label><input type="text" id="taskTitle" class="input" placeholder="Task title" /></div>
+                    <div class="form-group"><label class="label">Description</label><input type="text" id="taskDesc" class="input" placeholder="Description" /></div>
+                    <div class="form-group"><label class="label">Link</label><input type="url" id="taskLink" class="input" placeholder="https://..." /></div>
+                    <div class="grid-2">
+                        <div class="form-group"><label class="label">Platform</label><select id="taskSocial" class="select">
+                            ${['Facebook','WhatsApp','TikTok','Instagram','Twitter (X)','YouTube','Global','Website','LinkedIn','Reddit'].map(s => `<option value="${s.toLowerCase()}">${s}</option>`).join('')}
+                        </select></div>
+                        <div class="form-group"><label class="label">Category</label><select id="taskCategory" class="select">
+                            ${['Like','Follow','Comment','Share','Link','Refer','Download','Play Game','Watch Video','Screenshot','Subscribe','Sign Up','Login','Add to Home Screen','Visit','Others'].map(c => `<option value="${c.toLowerCase()}">${c}</option>`).join('')}
+                        </select></div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group"><label class="label">Reward (₦)</label><input type="number" id="taskReward" class="input" value="30" /></div>
+                        <div class="form-group"><label class="label">Max Performers</label><input type="number" id="taskMax" class="input" value="20" /></div>
+                        <div class="form-group"><label class="label">Tier</label><select id="taskTier" class="select">
+                            <option value="all">All Users</option>
+                            <option value="cobra">🐍 COBRA</option>
+                            <option value="lieutenant">⭐ LIEUTENANT</option>
+                            <option value="commander">👑 COMMANDER</option>
+                            <option value="general">🏆 GENERAL</option>
+                        </select></div>
+                    </div>
+                    <button onclick="adminSubmitTask()" class="btn btn-primary btn-block btn-lg">📤 Upload</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:8px;">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminSubmitTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
+            const link = document.getElementById('taskLink').value.trim();
+            const social = document.getElementById('taskSocial').value;
+            const category = document.getElementById('taskCategory').value;
+            const reward = parseInt(document.getElementById('taskReward').value) || 30;
+            const max = parseInt(document.getElementById('taskMax').value) || 20;
+            const tier = document.getElementById('taskTier').value;
+
+            if (!title || !desc || !link) return toast('Please fill all fields', 'error');
+
+            try {
+                const docRef = await db.collection('tasks').add({
+                    title,
+                    description: desc,
+                    link: link.startsWith('http') ? link : 'https://' + link,
+                    socialMedia: social,
+                    category,
+                    maxPerformers: max,
+                    reward,
+                    performerCount: 0,
+                    status: 'active',
+                    tier: tier,
+                    uploadedByUserId: 'admin',
+                    uploadedByAdmin: true,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                });
+                await db.collection('tasks').doc(docRef.id).update({ taskId: docRef.id });
+                toast('✅ Task created!', 'success');
+                document.querySelector('.modal-overlay')?.remove();
+                await loadAllData();
+                navigate('tasks');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+        }
+
+        function adminEditTask(taskId) {
+            const task = allTasks.find(t => t.id === taskId || t.taskId === taskId);
+            if (!task) return toast('Task not found', 'error');
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">✏️ Edit Task</h3>
+                    <div class="form-group"><label class="label">Title</label><input type="text" id="editTaskTitle" class="input" value="${task.title || ''}" /></div>
+                    <div class="form-group"><label class="label">Description</label><input type="text" id="editTaskDesc" class="input" value="${task.description || ''}" /></div>
+                    <div class="form-group"><label class="label">Link</label><input type="url" id="editTaskLink" class="input" value="${task.link || ''}" /></div>
+                    <div class="grid-2">
+                        <div class="form-group"><label class="label">Platform</label><select id="editTaskSocial" class="select">
+                            ${['Facebook','WhatsApp','TikTok','Instagram','Twitter (X)','YouTube','Global','Website','LinkedIn','Reddit'].map(s => `<option value="${s.toLowerCase()}" ${task.socialMedia === s.toLowerCase() ? 'selected' : ''}>${s}</option>`).join('')}
+                        </select></div>
+                        <div class="form-group"><label class="label">Category</label><select id="editTaskCategory" class="select">
+                            ${['Like','Follow','Comment','Share','Link','Refer','Download','Play Game','Watch Video','Screenshot','Subscribe','Sign Up','Login','Add to Home Screen','Visit','Others'].map(c => `<option value="${c.toLowerCase()}" ${task.category === c.toLowerCase() ? 'selected' : ''}>${c}</option>`).join('')}
+                        </select></div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group"><label class="label">Reward (₦)</label><input type="number" id="editTaskReward" class="input" value="${task.reward || 30}" /></div>
+                        <div class="form-group"><label class="label">Max Performers</label><input type="number" id="editTaskMax" class="input" value="${task.maxPerformers || 20}" /></div>
+                        <div class="form-group"><label class="label">Tier</label><select id="editTaskTier" class="select">
+                            <option value="all" ${task.tier === 'all' ? 'selected' : ''}>All Users</option>
+                            <option value="cobra" ${task.tier === 'cobra' ? 'selected' : ''}>🐍 COBRA</option>
+                            <option value="lieutenant" ${task.tier === 'lieutenant' ? 'selected' : ''}>⭐ LIEUTENANT</option>
+                            <option value="commander" ${task.tier === 'commander' ? 'selected' : ''}>👑 COMMANDER</option>
+                            <option value="general" ${task.tier === 'general' ? 'selected' : ''}>🏆 GENERAL</option>
+                        </select></div>
+                    </div>
+                    <button onclick="adminUpdateTask('${taskId}')" class="btn btn-primary btn-block btn-lg">💾 Save</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:8px;">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminUpdateTask(taskId) {
+            const title = document.getElementById('editTaskTitle').value.trim();
+            const desc = document.getElementById('editTaskDesc').value.trim();
+            const link = document.getElementById('editTaskLink').value.trim();
+            const social = document.getElementById('editTaskSocial').value;
+            const category = document.getElementById('editTaskCategory').value;
+            const reward = parseInt(document.getElementById('editTaskReward').value) || 30;
+            const max = parseInt(document.getElementById('editTaskMax').value) || 20;
+            const tier = document.getElementById('editTaskTier').value;
+
+            if (!title || !desc || !link) return toast('Please fill all fields', 'error');
+
+            try {
+                await db.collection('tasks').doc(taskId).update({
+                    title,
+                    description: desc,
+                    link: link.startsWith('http') ? link : 'https://' + link,
+                    socialMedia: social,
+                    category,
+                    maxPerformers: max,
+                    reward,
+                    tier: tier,
+                    updatedAt: new Date().toISOString()
+                });
+                toast('✅ Task updated!', 'success');
+                document.querySelector('.modal-overlay')?.remove();
+                await loadAllData();
+                navigate('tasks');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+        }
+
+        async function adminDeleteTask(taskId) {
+            if (!confirm('Delete this task?')) return;
+            await db.collection('tasks').doc(taskId).update({ status: 'deleted' });
+            toast('🗑️ Task deleted!', 'success');
+            await loadAllData();
+            navigate('tasks');
+        }
+
+        async function adminRenewTask(taskId) {
+            if (!confirm('Renew this task? All performers will be reset.')) return;
+            await db.collection('tasks').doc(taskId).update({
+                performerCount: 0,
+                status: 'active',
+                updatedAt: new Date().toISOString()
+            });
+            toast('🔄 Task renewed!', 'success');
+            await loadAllData();
+            navigate('tasks');
+        }
+
+        async function adminRestrictTask(taskId) {
+            const html = `
+                <div class="modal">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:12px;">🚫 Restrict Task</h3>
+                    <p style="color:var(--text-muted);margin-bottom:16px;">Select tiers to restrict from this task:</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+                        ${['cobra','lieutenant','commander','general'].map(t => `
+                            <label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:8px;cursor:pointer;">
+                                <input type="checkbox" id="restrict_${t}" value="${t}" />
+                                ${t.toUpperCase()}
+                            </label>
+                        `).join('')}
+                    </div>
+                    <button onclick="adminConfirmRestrict('${taskId}')" class="btn btn-warning btn-block">🚫 Restrict</button>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-secondary btn-block" style="margin-top:8px;">Cancel</button>
+                </div>
+            `;
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.innerHTML = html;
+            else {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = html;
+                document.body.appendChild(modal);
+            }
+        }
+
+        async function adminConfirmRestrict(taskId) {
+            const selected = ['cobra', 'lieutenant', 'commander', 'general'].filter(
+                t => document.getElementById(`restrict_${t}`).checked
+            );
+            if (selected.length === 0) return toast('Please select at least one tier', 'error');
+            await db.collection('tasks').doc(taskId).update({
+                restrictedTiers: selected,
+                updatedAt: new Date().toISOString()
+            });
+            toast(`🚫 Restricted for ${selected.join(', ')}`, 'success');
+            document.querySelector('.modal-overlay')?.remove();
+            await loadAllData();
+            navigate('tasks');
+        }
+
+        async function adminPauseTask(taskId) {
+            const task = allTasks.find(t => t.id === taskId || t.taskId === taskId);
+            if (!task) return toast('Task not found', 'error');
+            const newStatus = task.status === 'paused' ? 'active' : 'paused';
+            await db.collection('tasks').doc(taskId).update({ status: newStatus });
+            toast(newStatus === 'paused' ? '⏸️ Task paused!' : '▶️ Task resumed!', 'success');
+            await loadAllData();
+            navigate('tasks');
+        }
+
+        // ─── SUBMISSIONS ──────────────────────────────────────────────
+        function renderSubmissions() {
+            const pending = allSubmissions.filter(s => s.status === 'pending');
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>✅ Pending Submissions (${pending.length})</h3>
+                        <span class="status-badge pending">⏳ ${pending.length} pending</span>
+                    </div>
+
+                    ${pending.length === 0 ? `<div class="empty-state"><div class="icon">✅</div><p>No pending submissions</p></div>` :
+                        pending.map(s => {
+                            const user = allUsers.find(u => u.id === s.userId || u.uid === s.userId);
+                            const task = allTasks.find(t => t.id === s.taskId || t.taskId === s.taskId);
+                            const isDuplicate = allSubmissions.filter(sub => sub.taskId === s.taskId && sub.userId === s
+                                .userId).length > 1;
+                            return `
+                                <div style="padding:16px;border:1px solid var(--border);border-radius:8px;margin-bottom:12px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;">
+                                        <div>
+                                            <p style="font-weight:600;">${user?.firstName || 'Unknown'} ${user?.lastName || ''}</p>
+                                            <p style="font-size:13px;color:var(--text-muted);">${user?.email || 'No email'}</p>
+                                            <p style="font-size:13px;color:var(--text-muted);">Task: ${task?.title || 'Unknown'}</p>
+                                            ${isDuplicate ? `<span class="pill duplicate">🔄 Duplicate</span>` : ''}
+                                        </div>
+                                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                            ${s.imageUrl ? `<button class="btn btn-sm btn-outline" onclick="window.open('${s.imageUrl}','_blank')">📷 View</button>` : ''}
+                                            <button class="btn btn-sm btn-success" onclick="adminApproveSubmission('${s.id}','${s.userId}','${s.taskId}')">✅ Approve</button>
+                                            <button class="btn btn-sm btn-destructive" onclick="adminDeclineSubmission('${s.id}','${s.userId}')">❌ Decline</button>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                                        <span style="font-size:13px;color:var(--text-muted);">Reward: </span>
+                                        <input type="number" id="customAmount_${s.id}" class="input" placeholder="Custom amount" style="width:120px;padding:4px 8px;font-size:12px;" value="${task?.reward || 30}" />
+                                        <button class="btn btn-sm btn-primary" onclick="adminApproveWithCustom('${s.id}','${s.userId}')">💰 Custom</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')
+                    }
+                </div>
+            `;
+        }
+
+        async function adminApproveSubmission(subId, userId, taskId) {
+            const customInput = document.getElementById(`customAmount_${subId}`);
+            const reward = customInput ? parseFloat(customInput.value) : 30;
+            await adminProcessApproval(subId, userId, reward);
+        }
+
+        async function adminApproveWithCustom(subId, userId) {
+            const input = document.getElementById(`customAmount_${subId}`);
+            if (!input) return;
+            const reward = parseFloat(input.value);
+            if (!reward || reward <= 0) return toast('Enter a valid amount', 'error');
+            await adminProcessApproval(subId, userId, reward);
+        }
+
+        async function adminProcessApproval(subId, userId, reward) {
+            showLoading(true);
+            try {
+                const subRef = db.collection('submissions').doc(subId);
+                const subDoc = await subRef.get();
+                const sub = subDoc.data();
+                if (!sub) return toast('Submission not found', 'error');
+
+                // Delete screenshot from Supabase
+                if (sub.imageUrl) {
+                    try {
+                        const fileName = sub.imageUrl.split('/').pop();
+                        await supabaseClient.storage.from('Screenshot').remove([fileName]);
+                        console.log('✅ Screenshot deleted from Supabase');
+                    } catch (deleteErr) {
+                        console.error('Failed to delete screenshot:', deleteErr);
+                    }
+                }
+
+                // Update submission
+                await subRef.update({
+                    status: 'approved',
+                    updatedAt: new Date().toISOString(),
+                    processed: true,
+                    imageDeleted: true
+                });
+
+                // Credit user
+                const user = allUsers.find(u => u.id === userId || u.uid === userId);
+                if (user) {
+                    const newBalance = (user.balance || 0) + reward;
+                    const newScore = Math.min(100, (user.score || 0) + 5);
+                    await db.collection('users').doc(user.uid || String(user.id)).update({
+                        balance: newBalance,
+                        score: newScore,
+                        updatedAt: new Date().toISOString()
+                    });
+                    await db.collection('transactions').add({
+                        userId: user.id || user.uid,
+                        type: 'credit',
+                        amount: reward,
+                        description: `Task approved - ${sub.taskId}`,
+                        createdAt: new Date().toISOString()
+                    });
+                }
+
+                toast(`✅ Approved! ${formatNaira(reward)} credited.`, 'success');
+                await loadAllData();
+                navigate('submissions');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminDeclineSubmission(subId, userId) {
+            const reason = prompt('Reason for decline:');
+            if (reason === null) return;
+            showLoading(true);
+            try {
+                const subRef = db.collection('submissions').doc(subId);
+                const subDoc = await subRef.get();
+                const sub = subDoc.data();
+                if (!sub) return toast('Submission not found', 'error');
+
+                // Delete screenshot from Supabase
+                if (sub.imageUrl) {
+                    try {
+                        const fileName = sub.imageUrl.split('/').pop();
+                        await supabaseClient.storage.from('Screenshot').remove([fileName]);
+                        console.log('✅ Screenshot deleted from Supabase');
+                    } catch (deleteErr) {
+                        console.error('Failed to delete screenshot:', deleteErr);
+                    }
+                }
+
+                await subRef.update({
+                    status: 'declined',
+                    declineReason: reason,
+                    updatedAt: new Date().toISOString(),
+                    processed: true,
+                    imageDeleted: true
+                });
+
+                // Reduce score
+                const user = allUsers.find(u => u.id === userId || u.uid === userId);
+                if (user) {
+                    const newScore = Math.max(0, (user.score || 0) - 10);
+                    await db.collection('users').doc(user.uid || String(user.id)).update({
+                        score: newScore,
+                        updatedAt: new Date().toISOString()
+                    });
+                    if (newScore === 0) {
+                        const newBalance = Math.max(0, (user.balance || 0) - 300);
+                        await db.collection('users').doc(user.uid || String(user.id)).update({
+                            balance: newBalance
+                        });
+                        await db.collection('transactions').add({
+                            userId: user.id || user.uid,
+                            type: 'fee',
+                            amount: 300,
+                            description: 'Penalty: Score reached 0%',
+                            createdAt: new Date().toISOString()
+                        });
+                        toast('⚠️ Score reached 0%. ₦300 deducted.', 'warning');
+                    }
+                }
+
+                toast('❌ Declined!', 'warning');
+                await loadAllData();
+                navigate('submissions');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        // ─── WITHDRAWALS ─────────────────────────────────────────────
+        function renderWithdrawals() {
+            const pending = allWithdrawals.filter(w => w.status === 'pending');
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>💰 Pending Withdrawals (${pending.length})</h3>
+                        <span class="status-badge pending">⏳ ${pending.length} pending</span>
+                    </div>
+
+                    ${pending.length === 0 ? `<div class="empty-state"><div class="icon">💰</div><p>No pending withdrawals</p></div>` :
+                        pending.map(w => {
+                            const user = allUsers.find(u => u.id === w.userId || u.uid === w.userId);
+                            return `
+                                <div style="padding:16px;border:1px solid var(--border);border-radius:8px;margin-bottom:12px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:8px;">
+                                        <div>
+                                            <p style="font-weight:700;font-size:18px;">${formatNaira(w.amount)}</p>
+                                            <p style="font-size:13px;color:var(--text-muted);">${user?.firstName || 'Unknown'} ${user?.lastName || ''}</p>
+                                            <p style="font-size:13px;color:var(--text-muted);">${w.bankName} · ${w.accountNumber}</p>
+                                            <p style="font-size:12px;color:var(--text-muted);">${formatDateTime(w.createdAt)}</p>
+                                        </div>
+                                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                            <button class="btn btn-sm btn-outline" onclick="adminViewWithdrawal('${w.id}')">👁 View</button>
+                                            <button class="btn btn-sm btn-success" onclick="adminApproveWithdrawal('${w.id}','${w.userId}')">✅ Approve</button>
+                                            <button class="btn btn-sm btn-destructive" onclick="adminDeclineWithdrawal('${w.id}','${w.userId}')">❌ Decline</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')
+                    }
+                </div>
+            `;
+        }
+
+        function adminViewWithdrawal(wId) {
+            const w = allWithdrawals.find(w => w.id === wId);
+            if (!w) return toast('Withdrawal not found', 'error');
+            const user = allUsers.find(u => u.id === w.userId || u.uid === w.userId);
+            alert(
+                `💰 Withdrawal Details\n\nUser: ${user?.firstName || 'Unknown'} ${user?.lastName || ''}\nEmail: ${user?.email || 'N/A'}\nAmount: ${formatNaira(w.amount)}\nBank: ${w.bankName}\nAccount: ${w.accountNumber}\nName: ${w.accountName}\nFee: ${formatNaira(CONFIG.WITHDRAWAL_FEE || 300)}\nStatus: ${w.status}`
+            );
+        }
+
+        async function adminApproveWithdrawal(wId, userId) {
+            if (!confirm('Approve this withdrawal?')) return;
+            showLoading(true);
+            try {
+                await db.collection('withdrawals').doc(wId).update({
+                    status: 'approved',
+                    updatedAt: new Date().toISOString()
+                });
+                toast('✅ Withdrawal approved!', 'success');
+                await loadAllData();
+                navigate('withdrawals');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminDeclineWithdrawal(wId, userId) {
+            const reason = prompt('Reason for decline:');
+            if (reason === null) return;
+            showLoading(true);
+            try {
+                const wRef = db.collection('withdrawals').doc(wId);
+                const wDoc = await wRef.get();
+                const w = wDoc.data();
+                await wRef.update({
+                    status: 'declined',
+                    note: reason,
+                    updatedAt: new Date().toISOString()
+                });
+                // Refund user
+                const user = allUsers.find(u => u.id === w.userId || u.uid === w.userId);
+                if (user) {
+                    const newBalance = (user.balance || 0) + w.amount;
+                    await db.collection('users').doc(user.uid || String(user.id)).update({
+                        balance: newBalance
+                    });
+                    await db.collection('transactions').add({
+                        userId: user.id || user.uid,
+                        type: 'credit',
+                        amount: w.amount,
+                        description: `Refund for declined withdrawal`,
+                        createdAt: new Date().toISOString()
+                    });
+                }
+                toast('❌ Declined! Refunded.', 'warning');
+                await loadAllData();
+                navigate('withdrawals');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        // ─── REWARDS ──────────────────────────────────────────────────
+        function renderRewards() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>🎁 Create Reward</h3>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Amount (₦)</label>
+                            <input type="number" id="rewardAmount" class="input" placeholder="200" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">For Users</label>
+                            <select id="rewardUserType" class="select">
+                                <option value="all">All Users</option>
+                                <option value="trusted">Trusted Only</option>
+                                <option value="untrusted">Untrusted Only</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="adminCreateReward()" class="btn btn-primary btn-block">📤 Upload Reward</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📊 Rewards History</h3>
+                    </div>
+                    ${allRewards.length === 0 ? `<div class="empty-state"><div class="icon">🎁</div><p>No rewards created</p></div>` :
+                        `<div class="table-container">
+                            <table>
+                                <thead><tr><th>Amount</th><th>User Type</th><th>Status</th><th>Claimed By</th><th>Actions</th></tr></thead>
+                                <tbody>
+                                    ${allRewards.map(r => `
+                                        <tr>
+                                            <td style="font-weight:700;color:var(--primary);">${formatNaira(r.amount)}</td>
+                                            <td>${r.userType || 'all'}</td>
+                                            <td><span class="status-badge ${r.claimed ? 'approved' : 'pending'}">${r.claimed ? '✅ Claimed' : '⏳ Available'}</span></td>
+                                            <td>${r.claimed ? (allUsers.find(u => u.id === r.claimedBy || u.uid === r.claimedBy)?.firstName || 'Unknown') : '—'}</td>
+                                            <td><button class="btn btn-sm btn-destructive" onclick="adminDeleteReward('${r.id}')">🗑️</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`
+                    }
+                </div>
+            `;
+        }
+
+        async function adminCreateReward() {
+            const amount = parseInt(document.getElementById('rewardAmount').value);
+            const userType = document.getElementById('rewardUserType').value;
+            if (!amount || amount <= 0) return toast('Enter valid amount', 'error');
+            showLoading(true);
+            try {
+                await db.collection('rewards').add({
+                    amount,
+                    userType,
+                    claimed: false,
+                    claimedBy: null,
+                    claimedAt: null,
+                    createdAt: new Date().toISOString()
+                });
+                toast('🎁 Reward created!', 'success');
+                await loadAllData();
+                navigate('rewards');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminDeleteReward(rewardId) {
+            if (!confirm('Delete this reward?')) return;
+            await db.collection('rewards').doc(rewardId).delete();
+            toast('🗑️ Reward deleted!', 'success');
+            await loadAllData();
+            navigate('rewards');
+        }
+
+        // ─── FIRST PAYMENT ────────────────────────────────────────────
+        function renderFirstPayment() {
+            const enabled = allWhitelist.some(w => w.isActive);
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>💳 First Payment Management</h3>
+                        <div class="toggle ${enabled ? 'active' : ''}" onclick="adminToggleFirstPayment()">
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Amount (₦)</label>
+                            <input type="number" id="fpAmount" class="input" value="${CONFIG.FP_AMOUNT || 1000}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Duration (Days)</label>
+                            <input type="number" id="fpDuration" class="input" value="${CONFIG.FP_DURATION || 2}" />
+                        </div>
+                    </div>
+                    <button onclick="adminSaveFirstPayment()" class="btn btn-primary btn-block">💾 Save Settings</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>👥 Whitelisted Users</h3>
+                        <div style="display:flex;gap:8px;">
+                            <input type="text" id="fpAddUser" class="input" placeholder="Name, Email or ID" style="width:250px;" />
+                            <button class="btn btn-primary btn-sm" onclick="adminAddWhitelist()">+ Add</button>
+                        </div>
+                    </div>
+                    ${allWhitelist.length === 0 ? `<div class="empty-state"><div class="icon">💳</div><p>No users whitelisted</p></div>` :
+                        `<div class="table-container">
+                            <table>
+                                <thead><tr><th>Name</th><th>Email</th><th>Expires</th><th>Actions</th></tr></thead>
+                                <tbody>
+                                    ${allWhitelist.map(w => `
+                                        <tr>
+                                            <td>${w.name || 'Unknown'}</td>
+                                            <td>${w.email || 'No email'}</td>
+                                            <td>${w.expiresAt ? formatDate(w.expiresAt) : 'Never'}</td>
+                                            <td><button class="btn btn-sm btn-destructive" onclick="adminRemoveWhitelist('${w.id}')">🗑️</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`
+                    }
+                </div>
+            `;
+        }
+
+        async function adminToggleFirstPayment() {
+            const enabled = !allWhitelist.some(w => w.isActive);
+            await db.collection('systemConfig').doc('main').set({
+                firstPayment: { enabled, amount: CONFIG.FP_AMOUNT || 1000, duration: CONFIG.FP_DURATION || 2 }
+            }, { merge: true });
+            toast(`First payment ${enabled ? 'enabled' : 'disabled'}!`, 'success');
+            await loadAllData();
+            navigate('firstpayment');
+        }
+
+        async function adminSaveFirstPayment() {
+            const amount = parseInt(document.getElementById('fpAmount').value);
+            const duration = parseInt(document.getElementById('fpDuration').value);
+            if (!amount || amount <= 0) return toast('Enter valid amount', 'error');
+            if (!duration || duration <= 0) return toast('Enter valid duration', 'error');
+            await db.collection('systemConfig').doc('main').set({
+                firstPayment: { enabled: allWhitelist.some(w => w.isActive), amount, duration }
+            }, { merge: true });
+            toast('✅ Settings saved!', 'success');
+            await loadAllData();
+            navigate('firstpayment');
+        }
+
+        async function adminAddWhitelist() {
+            const input = document.getElementById('fpAddUser').value.trim();
+            if (!input) return toast('Please enter name, email or ID', 'error');
+            showLoading(true);
+            try {
+                let user = allUsers.find(u =>
+                    u.id == input || u.uid === input ||
+                    u.email === input ||
+                    `${u.firstName} ${u.lastName}`.toLowerCase().includes(input.toLowerCase())
+                );
+                if (!user) return toast('User not found', 'error');
+                const duration = CONFIG.FP_DURATION || 2;
+                const expiresAt = new Date();
+                expiresAt.setDate(expiresAt.getDate() + duration);
+                await db.collection('whitelist').add({
+                    userId: user.id || user.uid,
+                    email: user.email,
+                    name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+                    paidAt: new Date().toISOString(),
+                    expiresAt: expiresAt.toISOString(),
+                    isActive: true
+                });
+                toast(`✅ ${user.firstName} added to whitelist!`, 'success');
+                document.getElementById('fpAddUser').value = '';
+                await loadAllData();
+                navigate('firstpayment');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminRemoveWhitelist(wId) {
+            if (!confirm('Remove this user from whitelist?')) return;
+            await db.collection('whitelist').doc(wId).update({ isActive: false });
+            toast('✅ Removed!', 'success');
+            await loadAllData();
+            navigate('firstpayment');
+        }
+
+        // ─── TRANSACTIONS ─────────────────────────────────────────────
+        function renderTransactions() {
+            const totalRevenue = allTransactions.filter(t => t.type === 'fee').reduce((s, t) => s + (t.amount || 0), 0);
+            const totalPaid = allTransactions.filter(t => t.type === 'withdrawal').reduce((s, t) => s + (t.amount || 0), 0);
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📊 Transaction History (${allTransactions.length})</h3>
+                        <div>
+                            <span style="font-weight:700;color:var(--success);">Revenue: ${formatNaira(totalRevenue)}</span>
+                            <span style="font-weight:700;color:var(--destructive);margin-left:16px;">Paid: ${formatNaira(totalPaid)}</span>
+                        </div>
+                    </div>
+
+                    <div class="search-bar">
+                        <input type="text" id="txSearch" class="input" placeholder="Search by user, description..." oninput="filterTransactions()" />
+                        <select id="txTypeFilter" class="select" onchange="filterTransactions()">
+                            <option value="all">All Types</option>
+                            <option value="credit">✅ Credit</option>
+                            <option value="debit">💰 Debit</option>
+                            <option value="fee">📋 Fee</option>
+                            <option value="withdrawal">💳 Withdrawal</option>
+                            <option value="reward">🎁 Reward</option>
+                        </select>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="txTableBody">
+                                ${allTransactions.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).map(tx => {
+                                    const user = allUsers.find(u => u.id === tx.userId || u.uid === tx.userId);
+                                    const isCredit = tx.type === 'credit' || tx.type === 'reward';
+                                    return `
+                                        <tr>
+                                            <td style="font-size:13px;color:var(--text-muted);">${formatDateTime(tx.createdAt)}</td>
+                                            <td>${user?.firstName || 'Unknown'}</td>
+                                            <td>${tx.description || tx.type || 'Transaction'}</td>
+                                            <td style="font-weight:700;color:${isCredit ? 'var(--success)' : 'var(--destructive)'};">${isCredit ? '+' : '-'}${formatNaira(tx.amount || 0)}</td>
+                                            <td><span class="pill" style="background:${isCredit ? '#dcfce7' : '#fee2e2'};color:${isCredit ? '#166534' : '#991b1b'};">${tx.type || 'N/A'}</span></td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterTransactions() {
+            const search = document.getElementById('txSearch').value.toLowerCase();
+            const type = document.getElementById('txTypeFilter').value;
+            const tbody = document.getElementById('txTableBody');
+            const filtered = allTransactions.filter(tx => {
+                const user = allUsers.find(u => u.id === tx.userId || u.uid === tx.userId);
+                const matchSearch = (user?.firstName || '').toLowerCase().includes(search) ||
+                    (user?.lastName || '').toLowerCase().includes(search) ||
+                    (tx.description || '').toLowerCase().includes(search);
+                const matchType = type === 'all' || tx.type === type;
+                return matchSearch && matchType;
+            });
+            tbody.innerHTML = filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map(tx => {
+                const user = allUsers.find(u => u.id === tx.userId || u.uid === tx.userId);
+                const isCredit = tx.type === 'credit' || tx.type === 'reward';
+                return `
+                    <tr>
+                        <td style="font-size:13px;color:var(--text-muted);">${formatDateTime(tx.createdAt)}</td>
+                        <td>${user?.firstName || 'Unknown'}</td>
+                        <td>${tx.description || tx.type || 'Transaction'}</td>
+                        <td style="font-weight:700;color:${isCredit ? 'var(--success)' : 'var(--destructive)'};">${isCredit ? '+' : '-'}${formatNaira(tx.amount || 0)}</td>
+                        <td><span class="pill" style="background:${isCredit ? '#dcfce7' : '#fee2e2'};color:${isCredit ? '#166534' : '#991b1b'};">${tx.type || 'N/A'}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ─── TIER COMPOSER ────────────────────────────────────────────
+        function renderTierComposer() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📬 Tier Composer</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">🎯 Target Tier</label>
+                        <select id="tcTier" class="select">
+                            <option value="all">All Users</option>
+                            <option value="cobra">🐍 COBRA</option>
+                            <option value="lieutenant">⭐ LIEUTENANT</option>
+                            <option value="commander">👑 COMMANDER</option>
+                            <option value="general">🏆 GENERAL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">📝 Title</label>
+                        <input type="text" id="tcTitle" class="input" placeholder="Enter message title" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">📄 Description</label>
+                        <textarea id="tcDesc" class="input" rows="4" placeholder="Enter message description"></textarea>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+                        <label style="font-weight:600;font-size:13px;">🔘 Add Button</label>
+                        <div class="toggle" id="tcBtnToggle" onclick="toggleTcButton()">
+                            <div class="thumb"></div>
+                        </div>
+                        <span id="tcBtnStatus" style="font-size:13px;color:var(--text-muted);">Disabled</span>
+                    </div>
+                    <div id="tcButtonFields" style="display:none;">
+                        <div class="form-group">
+                            <label class="label">🔗 Button Name</label>
+                            <input type="text" id="tcBtnName" class="input" placeholder="e.g. Learn More" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">🔗 Button Link</label>
+                            <input type="url" id="tcBtnLink" class="input" placeholder="https://example.com" />
+                        </div>
+                    </div>
+                    <button onclick="adminSendTierMessage()" class="btn btn-primary btn-block btn-lg">📤 Send Message</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 History</h3>
+                    </div>
+                    ${allTierMessages && allTierMessages.length === 0 ? `<div class="empty-state"><div class="icon">📬</div><p>No messages sent</p></div>` :
+                        `<div class="table-container">
+                            <table>
+                                <thead><tr><th>Tier</th><th>Title</th><th>Sent At</th><th>Actions</th></tr></thead>
+                                <tbody>
+                                    ${(allTierMessages || []).map(m => `
+                                        <tr>
+                                            <td>${m.tier === 'all' ? '🌍 All' : CONFIG.TIERS?.[m.tier]?.icon + ' ' + m.tier?.toUpperCase() || m.tier}</td>
+                                            <td>${m.title}</td>
+                                            <td>${formatDateTime(m.sentAt)}</td>
+                                            <td><button class="btn btn-sm btn-destructive" onclick="adminDeleteTierMessage('${m.id}')">🗑️</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`
+                    }
+                </div>
+            `;
+        }
+
+        let tcHasButton = false;
+
+        function toggleTcButton() {
+            tcHasButton = !tcHasButton;
+            const toggle = document.getElementById('tcBtnToggle');
+            if (toggle) toggle.classList.toggle('active', tcHasButton);
+            document.getElementById('tcButtonFields').style.display = tcHasButton ? 'block' : 'none';
+            document.getElementById('tcBtnStatus').textContent = tcHasButton ? 'Enabled' : 'Disabled';
+        }
+
+        async function adminSendTierMessage() {
+            const tier = document.getElementById('tcTier').value;
+            const title = document.getElementById('tcTitle').value.trim();
+            const description = document.getElementById('tcDesc').value.trim();
+            if (!title || !description) return toast('Please enter title and description', 'error');
+            const hasButton = tcHasButton;
+            const buttonName = document.getElementById('tcBtnName').value.trim();
+            const buttonLink = document.getElementById('tcBtnLink').value.trim();
+            if (hasButton && (!buttonName || !buttonLink)) return toast('Please enter button name and link', 'error');
+
+            showLoading(true);
+            try {
+                await db.collection('tierMessages').add({
+                    tier,
+                    title,
+                    description,
+                    hasButton,
+                    buttonName: buttonName || '',
+                    buttonLink: buttonLink || '',
+                    sentAt: new Date().toISOString(),
+                    sentBy: currentUser.uid,
+                    active: true
+                });
+                toast('✅ Message sent!', 'success');
+                document.getElementById('tcTitle').value = '';
+                document.getElementById('tcDesc').value = '';
+                document.getElementById('tcBtnName').value = '';
+                document.getElementById('tcBtnLink').value = '';
+                await loadAllData();
+                navigate('tiercomposer');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminDeleteTierMessage(msgId) {
+            if (!confirm('Delete this message?')) return;
+            await db.collection('tierMessages').doc(msgId).delete();
+            toast('🗑️ Message deleted!', 'success');
+            await loadAllData();
+            navigate('tiercomposer');
+        }
+
+        // ─── POPUP MESSAGES ───────────────────────────────────────────
+        function renderPopups() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📢 Create Popup Message</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Title</label>
+                        <input type="text" id="popupTitle" class="input" placeholder="Popup title" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Description</label>
+                        <input type="text" id="popupDesc" class="input" placeholder="Popup description" />
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Target Users</label>
+                            <select id="popupTarget" class="select">
+                                <option value="all">All Users</option>
+                                <option value="cobra">🐍 COBRA</option>
+                                <option value="lieutenant">⭐ LIEUTENANT</option>
+                                <option value="commander">👑 COMMANDER</option>
+                                <option value="general">🏆 GENERAL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Send Type</label>
+                            <select id="popupSendType" class="select">
+                                <option value="one-time">One-Time Send</option>
+                                <option value="two-time">Two-Time Send</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Button Name (optional)</label>
+                            <input type="text" id="popupBtnName" class="input" placeholder="Learn More" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Button Link</label>
+                            <input type="url" id="popupBtnLink" class="input" placeholder="https://..." />
+                        </div>
+                    </div>
+                    <button onclick="adminSendPopup()" class="btn btn-primary btn-block btn-lg">📤 Send Popup</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 Sent Popups</h3>
+                    </div>
+                    ${(allPopups || []).length === 0 ? `<div class="empty-state"><div class="icon">📢</div><p>No popups sent</p></div>` :
+                        `<div class="table-container">
+                            <table>
+                                <thead><tr><th>Title</th><th>Target</th><th>Sent At</th><th>Actions</th></tr></thead>
+                                <tbody>
+                                    ${(allPopups || []).map(p => `
+                                        <tr>
+                                            <td>${p.title}</td>
+                                            <td>${p.targetTier || 'all'}</td>
+                                            <td>${formatDateTime(p.sentAt)}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-secondary" onclick="adminTogglePopup('${p.id}')">${p.active ? '🔴 Deactivate' : '🟢 Activate'}</button>
+                                                <button class="btn btn-sm btn-destructive" onclick="adminDeletePopup('${p.id}')">🗑️</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`
+                    }
+                </div>
+            `;
+        }
+
+        async function adminSendPopup() {
+            const title = document.getElementById('popupTitle').value.trim();
+            const desc = document.getElementById('popupDesc').value.trim();
+            const target = document.getElementById('popupTarget').value;
+            const sendType = document.getElementById('popupSendType').value;
+            const btnName = document.getElementById('popupBtnName').value.trim();
+            const btnLink = document.getElementById('popupBtnLink').value.trim();
+            if (!title || !desc) return toast('Please enter title and description', 'error');
+
+            showLoading(true);
+            try {
+                await db.collection('popups').add({
+                    title,
+                    description: desc,
+                    targetTier: target,
+                    hasButton: !!btnName && !!btnLink,
+                    buttonName: btnName || '',
+                    buttonLink: btnLink || '',
+                    sendType: sendType,
+                    sentAt: new Date().toISOString(),
+                    sentCount: 0,
+                    active: true
+                });
+                toast('✅ Popup sent!', 'success');
+                document.getElementById('popupTitle').value = '';
+                document.getElementById('popupDesc').value = '';
+                document.getElementById('popupBtnName').value = '';
+                document.getElementById('popupBtnLink').value = '';
+                await loadAllData();
+                navigate('popups');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        async function adminTogglePopup(popupId) {
+            const popup = (allPopups || []).find(p => p.id === popupId);
+            if (!popup) return;
+            await db.collection('popups').doc(popupId).update({ active: !popup.active });
+            toast(popup.active ? '🔴 Deactivated!' : '🟢 Activated!', 'success');
+            await loadAllData();
+            navigate('popups');
+        }
+
+        async function adminDeletePopup(popupId) {
+            if (!confirm('Delete this popup?')) return;
+            await db.collection('popups').doc(popupId).delete();
+            toast('🗑️ Popup deleted!', 'success');
+            await loadAllData();
+            navigate('popups');
+        }
+
+        // ─── APP SHUTDOWN ─────────────────────────────────────────────
+        function renderShutdown() {
+            const config = userDataCache.systemConfig?.shutdown || {};
+            const isActive = config.enabled || false;
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>⏰ APP Shutdown Control</h3>
+                        <div class="toggle ${isActive ? 'active' : ''}" onclick="adminToggleShutdown()">
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <div>
+                            <h4 style="font-weight:600;font-size:14px;margin-bottom:8px;">🔴 Shutdown Time</h4>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+                                <input type="number" id="sdHours" class="input" placeholder="Hrs" value="${config.closeHour || 0}" min="0" max="23" />
+                                <input type="number" id="sdMinutes" class="input" placeholder="Min" value="${config.closeMinute || 0}" min="0" max="59" />
+                                <input type="number" id="sdSeconds" class="input" placeholder="Sec" value="${config.closeSecond || 0}" min="0" max="59" />
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="font-weight:600;font-size:14px;margin-bottom:8px;">🟢 Reopen Time</h4>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;">
+                                <input type="number" id="reHours" class="input" placeholder="Hrs" value="${config.reopenHour || 0}" min="0" max="23" />
+                                <input type="number" id="reMinutes" class="input" placeholder="Min" value="${config.reopenMinute || 0}" min="0" max="59" />
+                                <input type="number" id="reSeconds" class="input" placeholder="Sec" value="${config.reopenSecond || 0}" min="0" max="59" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:16px;">
+                        <label class="label">📝 Shutdown Message</label>
+                        <input type="text" id="sdMessage" class="input" value="${config.message || 'This APP is temporarily closed. Please return at the scheduled time.'}" />
+                    </div>
+
+                    <button onclick="adminSaveShutdown()" class="btn btn-primary btn-block">💾 Save Shutdown Settings</button>
+                </div>
+
+                <div class="admin-card" style="margin-top:16px;">
+                    <div class="card-header">
+                        <h3>📊 Shutdown Status</h3>
+                    </div>
+                    <div style="display:flex;gap:24px;flex-wrap:wrap;">
+                        <div><span style="color:var(--text-muted);">Status:</span> <span class="status-badge ${isShutdownActive ? 'declined' : 'approved'}">${isShutdownActive ? '🔴 Shutdown' : '🟢 Open'}</span></div>
+                        <div><span style="color:var(--text-muted);">Users Notified:</span> <span style="font-weight:700;">${config.notifyUsers?.length || 0}</span></div>
+                        ${isShutdownActive ? `<button class="btn btn-destructive btn-sm" onclick="adminForceReopen()">🟢 Force Reopen</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function adminToggleShutdown() {
+            const config = userDataCache.systemConfig?.shutdown || {};
+            const enabled = !config.enabled;
+            await db.collection('systemConfig').doc('main').set({
+                shutdown: { ...config, enabled: enabled }
+            }, { merge: true });
+            toast(`Shutdown ${enabled ? 'enabled' : 'disabled'}!`, 'success');
+            await loadAllData();
+            navigate('shutdown');
+        }
+
+        async function adminSaveShutdown() {
+            const closeHour = parseInt(document.getElementById('sdHours').value) || 0;
+            const closeMinute = parseInt(document.getElementById('sdMinutes').value) || 0;
+            const closeSecond = parseInt(document.getElementById('sdSeconds').value) || 0;
+            const reopenHour = parseInt(document.getElementById('reHours').value) || 0;
+            const reopenMinute = parseInt(document.getElementById('reMinutes').value) || 0;
+            const reopenSecond = parseInt(document.getElementById('reSeconds').value) || 0;
+            const message = document.getElementById('sdMessage').value.trim();
+
+            const config = userDataCache.systemConfig?.shutdown || {};
+            await db.collection('systemConfig').doc('main').set({
+                shutdown: {
+                    ...config,
+                    closeHour,
+                    closeMinute,
+                    closeSecond,
+                    reopenHour,
+                    reopenMinute,
+                    reopenSecond,
+                    message: message || 'This APP is temporarily closed. Please return at the scheduled time.'
+                }
+            }, { merge: true });
+            toast('✅ Shutdown settings saved!', 'success');
+            await loadAllData();
+            navigate('shutdown');
+        }
+
+        async function adminForceReopen() {
+            if (!confirm('Force reopen the APP?')) return;
+            await db.collection('systemConfig').doc('main').set({
+                shutdown: { enabled: false, isShutdown: false, notifyUsers: [] }
+            }, { merge: true });
+            toast('🟢 APP reopened!', 'success');
+            await loadAllData();
+            navigate('shutdown');
+        }
+
+        // ─── SHUTDOWN CUP (Maintenance Mode) ──────────────────────────
+        function renderShutdownCup() {
+            const config = userDataCache.systemConfig?.shutdownCup || {};
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>⚙️ Shutdown Cup (Maintenance Mode)</h3>
+                        <div class="toggle ${config.enabled ? 'active' : ''}" onclick="adminToggleShutdownCup()">
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                        <div class="form-group">
+                            <label class="label">📅 Shutdown Date</label>
+                            <input type="date" id="scDate" class="input" value="${config.shutdownDate || ''}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">⏰ Shutdown Time</label>
+                            <input type="time" id="scTime" class="input" value="${config.shutdownTime || ''}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="label">📝 Custom Message</label>
+                        <textarea id="scMessage" class="input" rows="4">${config.message || 'APP is under Alpha mode. Getting updates from developer. APP is not broken. Please check back and try again later.'}</textarea>
+                    </div>
+
+                    <button onclick="adminSaveShutdownCup()" class="btn btn-primary btn-block">💾 Save Settings</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 Scheduled Shutdowns</h3>
+                    </div>
+                    ${(allShutdownCups || []).length === 0 ? `<div class="empty-state"><div class="icon">⚙️</div><p>No scheduled shutdowns</p></div>` :
+                        `<div class="table-container">
+                            <table>
+                                <thead><tr><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead>
+                                <tbody>
+                                    ${(allShutdownCups || []).map(sc => `
+                                        <tr>
+                                            <td>${formatDate(sc.shutdownDate)}</td>
+                                            <td>${sc.shutdownTime}</td>
+                                            <td><span class="status-badge ${sc.active ? 'active' : 'inactive'}">${sc.active ? '✅ Active' : '❌ Inactive'}</span></td>
+                                            <td><button class="btn btn-sm btn-destructive" onclick="adminDeleteShutdownCup('${sc.id}')">🗑️</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>`
+                    }
+                </div>
+            `;
+        }
+
+        async function adminToggleShutdownCup() {
+            const config = userDataCache.systemConfig?.shutdownCup || {};
+            const enabled = !config.enabled;
+            await db.collection('systemConfig').doc('main').set({
+                shutdownCup: { ...config, enabled: enabled }
+            }, { merge: true });
+            toast(`Shutdown Cup ${enabled ? 'enabled' : 'disabled'}!`, 'success');
+            await loadAllData();
+            navigate('shutdowncup');
+        }
+
+        async function adminSaveShutdownCup() {
+            const date = document.getElementById('scDate').value;
+            const time = document.getElementById('scTime').value;
+            const message = document.getElementById('scMessage').value.trim();
+
+            if (!date || !time) return toast('Please enter date and time', 'error');
+
+            const config = userDataCache.systemConfig?.shutdownCup || {};
+            await db.collection('systemConfig').doc('main').set({
+                shutdownCup: {
+                    ...config,
+                    shutdownDate: date,
+                    shutdownTime: time,
+                    message: message || 'APP is under Alpha mode. Getting updates from developer. APP is not broken. Please check back and try again later.',
+                    active: true
+                }
+            }, { merge: true });
+            toast('✅ Shutdown Cup saved!', 'success');
+            await loadAllData();
+            navigate('shutdowncup');
+        }
+
+        async function adminDeleteShutdownCup(scId) {
+            if (!confirm('Delete this scheduled shutdown?')) return;
+            await db.collection('shutdownCups').doc(scId).delete();
+            toast('🗑️ Deleted!', 'success');
+            await loadAllData();
+            navigate('shutdowncup');
+        }
+
+        // ─── SYSTEM SETTINGS ──────────────────────────────────────────
+        function renderSettings() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>⚙️ System Settings</h3>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Min Withdrawal (₦)</label>
+                            <input type="number" id="sMinWithdrawal" class="input" value="${CONFIG.MIN_WITHDRAWAL || 3000}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Withdrawal Fee (₦)</label>
+                            <input type="number" id="sWithdrawalFee" class="input" value="${CONFIG.WITHDRAWAL_FEE || 300}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Reward Per Task (₦)</label>
+                            <input type="number" id="sRewardPerTask" class="input" value="${CONFIG.REWARD_PER_TASK || 30}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Max Performers Per Task</label>
+                            <input type="number" id="sMaxPerformers" class="input" value="${CONFIG.MAX_PERFORMERS || 20}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Score Increment</label>
+                            <input type="number" id="sScoreInc" class="input" value="${CONFIG.SCORE_INCREMENT || 5}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Auto-Refresh Interval (ms)</label>
+                            <input type="number" id="sRefreshInterval" class="input" value="${CONFIG.AUTO_REFRESH_INTERVAL || 30000}" />
+                        </div>
+                    </div>
+                    <button onclick="adminSaveSystemSettings()" class="btn btn-primary btn-block">💾 Save Settings</button>
+                </div>
+            `;
+        }
+
+        async function adminSaveSystemSettings() {
+            const minWithdrawal = parseInt(document.getElementById('sMinWithdrawal').value);
+            const withdrawalFee = parseInt(document.getElementById('sWithdrawalFee').value);
+            const rewardPerTask = parseInt(document.getElementById('sRewardPerTask').value);
+            const maxPerformers = parseInt(document.getElementById('sMaxPerformers').value);
+            const scoreInc = parseInt(document.getElementById('sScoreInc').value);
+            const refreshInterval = parseInt(document.getElementById('sRefreshInterval').value);
+
+            if (!minWithdrawal || !withdrawalFee || !rewardPerTask || !maxPerformers) {
+                return toast('Please fill all fields', 'error');
+            }
+
+            showLoading(true);
+            try {
+                await db.collection('systemConfig').doc('main').set({
+                    minWithdrawal,
+                    withdrawalFee,
+                    rewardPerTask,
+                    maxPerformers,
+                    scoreIncrement: scoreInc || 5,
+                    autoRefreshInterval: refreshInterval || 30000,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+                // Update local CONFIG
+                CONFIG.MIN_WITHDRAWAL = minWithdrawal;
+                CONFIG.WITHDRAWAL_FEE = withdrawalFee;
+                CONFIG.REWARD_PER_TASK = rewardPerTask;
+                CONFIG.MAX_PERFORMERS = maxPerformers;
+                CONFIG.SCORE_INCREMENT = scoreInc || 5;
+                CONFIG.AUTO_REFRESH_INTERVAL = refreshInterval || 30000;
+                toast('✅ Settings saved!', 'success');
+                await loadAllData();
+                navigate('settings');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        // ─── APP CONTENT ──────────────────────────────────────────────
+        function renderAppContent() {
+            const content = userDataCache.appContent || {};
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📺 App Content</h3>
+                    </div>
+                    <h4 style="font-weight:600;font-size:14px;margin-bottom:12px;">📹 Tutorial Video</h4>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="label">Video Title</label>
+                            <input type="text" id="acVideoTitle" class="input" value="${content.tutorialVideo?.title || 'How to Earn on NairaMaster.ng'}" />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Video URL (YouTube embed)</label>
+                            <input type="url" id="acVideoUrl" class="input" value="${content.tutorialVideo?.url || 'https://www.youtube.com/embed/3JZ_D3ELwOQ'}" />
+                        </div>
+                    </div>
+
+                    <hr style="border:1px solid var(--border);margin:16px 0;" />
+
+                    <h4 style="font-weight:600;font-size:14px;margin-bottom:12px;">📄 Documentation</h4>
+                    <div class="form-group">
+                        <label class="label">Document Title</label>
+                        <input type="text" id="acDocTitle" class="input" value="${content.documentation?.title || 'User Guide'}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Document Content</label>
+                        <textarea id="acDocContent" class="input" rows="6">${content.documentation?.content || 'Welcome to NairaMaster.ng! Perform tasks and earn money.'}</textarea>
+                    </div>
+
+                    <button onclick="adminSaveAppContent()" class="btn btn-primary btn-block">💾 Save Content</button>
+                </div>
+            `;
+        }
+
+        async function adminSaveAppContent() {
+            const videoTitle = document.getElementById('acVideoTitle').value.trim();
+            const videoUrl = document.getElementById('acVideoUrl').value.trim();
+            const docTitle = document.getElementById('acDocTitle').value.trim();
+            const docContent = document.getElementById('acDocContent').value.trim();
+
+            if (!videoUrl || !docTitle || !docContent) return toast('Please fill all fields', 'error');
+
+            showLoading(true);
+            try {
+                await db.collection('appContent').doc('main').set({
+                    tutorialVideo: {
+                        title: videoTitle || 'How to Earn on NairaMaster.ng',
+                        url: videoUrl,
+                        updatedAt: new Date().toISOString()
+                    },
+                    documentation: {
+                        title: docTitle || 'User Guide',
+                        content: docContent,
+                        updatedAt: new Date().toISOString()
+                    }
+                }, { merge: true });
+                toast('✅ Content saved!', 'success');
+                await loadAllData();
+                navigate('appcontent');
+            } catch (err) {
+                toast('Error: ' + err.message, 'error');
+            }
+            showLoading(false);
+        }
+
+        // ─── DUPLICATE TASKS ──────────────────────────────────────────
+        function renderDuplicates() {
+            const taskGroups = {};
+            allSubmissions.forEach(s => {
+                if (!taskGroups[s.taskId]) taskGroups[s.taskId] = [];
+                taskGroups[s.taskId].push(s);
+            });
+            const duplicates = Object.keys(taskGroups).filter(tid => taskGroups[tid].length > 1);
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 Duplicate Tasks (${duplicates.length} groups)</h3>
+                    </div>
+                    ${duplicates.length === 0 ? `<div class="empty-state"><div class="icon">✅</div><p>No duplicates found</p></div>` :
+                        duplicates.map(tid => {
+                            const task = allTasks.find(t => t.id === tid || t.taskId === tid);
+                            const subs = taskGroups[tid];
+                            return `
+                                <div style="padding:16px;border:1px solid var(--border);border-radius:8px;margin-bottom:12px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                        <div>
+                                            <h4 style="font-weight:700;">${task?.title || 'Unknown Task'}</h4>
+                                            <p style="font-size:13px;color:var(--text-muted);">${subs.length} duplicate submissions</p>
+                                        </div>
+                                        <div style="display:flex;gap:8px;">
+                                            <button class="btn btn-sm btn-success" onclick="adminApproveAllDuplicates('${tid}')">✅ Approve All</button>
+                                            <button class="btn btn-sm btn-destructive" onclick="adminDeclineAllDuplicates('${tid}')">❌ Decline All</button>
+                                        </div>
+                                    </div>
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                        ${subs.map(s => {
+                                            const user = allUsers.find(u => u.id === s.userId || u.uid === s.userId);
+                                            return `
+                                                <div style="padding:8px;border:1px solid var(--border);border-radius:6px;">
+                                                    <p style="font-weight:600;font-size:13px;">${user?.firstName || 'Unknown'}</p>
+                                                    <p style="font-size:11px;color:var(--text-muted);">${formatDateTime(s.createdAt)}</p>
+                                                    <span class="status-badge ${s.status === 'approved' ? 'approved' : s.status === 'declined' ? 'declined' : 'pending'}">${s.status}</span>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')
+                    }
+                </div>
+            `;
+        }
+
+        async function adminApproveAllDuplicates(taskId) {
+            if (!confirm('Approve all duplicates for this task?')) return;
+            const subs = allSubmissions.filter(s => s.taskId === taskId && s.status === 'pending');
+            for (const s of subs) {
+                await adminProcessApproval(s.id, s.userId, 30);
+            }
+            toast('✅ All duplicates approved!', 'success');
+            await loadAllData();
+            navigate('duplicates');
+        }
+
+        async function adminDeclineAllDuplicates(taskId) {
+            if (!confirm('Decline all duplicates for this task?')) return;
+            const subs = allSubmissions.filter(s => s.taskId === taskId && s.status === 'pending');
+            for (const s of subs) {
+                await adminDeclineSubmission(s.id, s.userId);
+            }
+            toast('❌ All duplicates declined!', 'warning');
+            await loadAllData();
+            navigate('duplicates');
+        }
+
+        // ─── ADMIN NOTIFICATIONS ──────────────────────────────────────
+        function renderNotifications() {
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>🔔 Admin Notifications</h3>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-sm btn-secondary" onclick="adminMarkAllNotificationsRead()">✅ Mark All Read</button>
+                            <button class="btn btn-sm btn-destructive" onclick="adminClearAllNotifications()">🗑️ Clear All</button>
+                        </div>
+                    </div>
+                    ${notifications.length === 0 ? `<div class="empty-state"><div class="icon">🔔</div><p>No notifications</p></div>` :
+                        notifications.slice(0, 20).map(n => `
+                            <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);${n.read ? 'opacity:0.6;' : ''}">
+                                <div>
+                                    <p style="font-weight:600;">${n.title}</p>
+                                    <p style="font-size:13px;color:var(--text-muted);">${n.body}</p>
+                                    <p style="font-size:11px;color:var(--text-muted);">${formatDateTime(n.createdAt)}</p>
+                                </div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-sm btn-secondary" onclick="adminMarkNotificationRead('${n.id}')">✅</button>
+                                    <button class="btn btn-sm btn-destructive" onclick="adminDeleteNotification('${n.id}')">🗑️</button>
+                                </div>
+                            </div>
+                        `).join('')
+                    }
+                </div>
+            `;
+        }
+
+        async function adminMarkNotificationRead(notifId) {
+            await db.collection('adminNotifications').doc(notifId).update({ read: true });
+            await loadAllData();
+            navigate('notifications');
+        }
+
+        async function adminMarkAllNotificationsRead() {
+            const batch = db.batch();
+            notifications.forEach(n => {
+                if (!n.read) {
+                    batch.update(db.collection('adminNotifications').doc(n.id), { read: true });
+                }
+            });
+            await batch.commit();
+            toast('✅ All marked as read!', 'success');
+            await loadAllData();
+            navigate('notifications');
+        }
+
+        async function adminClearAllNotifications() {
+            if (!confirm('Delete all notifications?')) return;
+            const batch = db.batch();
+            notifications.forEach(n => {
+                batch.delete(db.collection('adminNotifications').doc(n.id));
+            });
+            await batch.commit();
+            toast('🗑️ All cleared!', 'success');
+            await loadAllData();
+            navigate('notifications');
+        }
+
+        async function adminDeleteNotification(notifId) {
+            await db.collection('adminNotifications').doc(notifId).delete();
+            await loadAllData();
+            navigate('notifications');
+        }
+
+        // ─── ADMIN EARNINGS ────────────────────────────────────────────
+        function renderEarnings() {
+            const totalFee = allTransactions.filter(t => t.type === 'fee').reduce((s, t) => s + (t.amount || 0), 0);
+            const totalWithdrawalFee = allTransactions.filter(t => t.type === 'fee' && t.description?.includes('withdrawal')).reduce((s, t) => s + (t.amount || 0), 0);
+            const totalTaskFee = allTransactions.filter(t => t.type === 'task_creation').reduce((s, t) => s + (t.amount || 0), 0);
+            const totalFirstPayment = allTransactions.filter(t => t.type === 'first_payment').reduce((s, t) => s + (t.amount || 0), 0);
+            const totalPenalty = allTransactions.filter(t => t.type === 'fee' && t.description?.includes('Penalty')).reduce((s, t) => s + (t.amount || 0), 0);
+
+            return `
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>💰 Admin Earnings</h3>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom:16px;">
+                        <div class="stat-card">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-number">${formatNaira(totalFee)}</div>
+                            <div class="stat-label">Total Fees Collected</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💳</div>
+                            <div class="stat-number">${formatNaira(totalWithdrawalFee)}</div>
+                            <div class="stat-label">Withdrawal Fees</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-number">${formatNaira(totalTaskFee)}</div>
+                            <div class="stat-label">Task Creation Fees</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-number">${formatNaira(totalFirstPayment)}</div>
+                            <div class="stat-label">First Payment</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚠️</div>
+                            <div class="stat-number">${formatNaira(totalPenalty)}</div>
+                            <div class="stat-label">Penalty Deductions</div>
+                        </div>
+                        <div class="stat-card" style="border:2px solid var(--primary);">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-number" style="color:var(--primary);">${formatNaira(totalFee + totalTaskFee + totalFirstPayment + totalPenalty)}</div>
+                            <div class="stat-label">TOTAL EARNINGS</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:12px;">
+                        <button class="btn btn-primary btn-block" onclick="adminWithdrawEarnings()">💳 Withdraw Earnings</button>
+                        <button class="btn btn-outline btn-block" onclick="adminExportEarnings()">📥 Export Report</button>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3>📋 Earnings History</h3>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Source</th><th>Amount</th><th>Description</th></tr>
+                            </thead>
+                            <tbody>
+                                ${allTransactions.filter(t => t.type === 'fee' || t.type === 'task_creation' || t.type === 'first_payment').sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 50).map(tx => `
+                                    <tr>
+                                        <td style="font-size:13px;color:var(--text-muted);">${formatDateTime(tx.createdAt)}</td>
+                                        <td>${tx.type === 'fee' ? '📋 Fee' : tx.type === 'task_creation' ? '📝 Task Creation' : '💳 First Payment'}</td>
+                                        <td style="font-weight:700;color:var(--success);">+${formatNaira(tx.amount || 0)}</td>
+                                        <td style="font-size:13px;color:var(--text-muted);">${tx.description || tx.type}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function adminWithdrawEarnings() {
+            toast('💳 Withdrawal feature coming soon!', 'info');
+        }
+
+        function adminExportEarnings() {
+            toast('📥 Export feature coming soon!', 'info');
+        }
+
+        // ─── LOGOUT ────────────────────────────────────────────────────
+        async function adminLogout() {
+            if (!confirm('Are you sure you want to logout?')) return;
+            await auth.signOut();
+            window.location.href = '/';
+        }
+
+        // ─── INIT ──────────────────────────────────────────────────────
+        // Check if dark mode is enabled
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Listen for auth state changes
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                initAdmin();
+            } else {
+                window.location.href = '/admin-login.html';
+            }
+        });
+
+        console.log('🚀 NairaMaster.ng Admin Dashboard v1.0');
+        console.log('✅ All 20+ sections ready!');
+        console.log('🔴 Real-time listeners active');
+        console.log('📊 Admin Earnings tracking active');
+        console.log('🔥 Ready for production!');
+    </script>
+</body>
+</html>
