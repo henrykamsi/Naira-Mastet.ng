@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>(function(s){s.dataset.zone='10730342',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-        
-<script>(function(s){s.dataset.zone='10730342',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-        
         <meta name="google-site-verification" content="ZxvYybyg9963-ltKszRxcviAPkYag5UuGqjlJLMqtww" />
     <meta name="monetag" content="1fa5c9306ad350f0610a2aea641a0aa7">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-    <title>NairaMaster.ng - Earn Money By Performing Social task.</title>
+    <title>NairaMaster.ng - Earn Money By Performing Social Task</title>
       <!-- ─── SOCIAL MEDIA SHARING (Open Graph) ─── -->
 <meta property="og:title" content="NairaMaster.ng - Earn Money By Performing Social Media Task" />
 <meta property="og:description" content="Perform tasks and earn money on NairaMaster.ng. Join now and start earning!" />
@@ -1008,116 +1004,155 @@
                 transform: translate(-50%, -50%) scale(1);
             }
         }
-
-        /* Reward Bubble */
-        .reward-bubble {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 16px 20px;
-            border-radius: var(--radius);
-            text-align: center;
-            margin: 12px 0;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.02); }
-        }
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <div class="header">
+            <div class="logo">
+                🎯 <span>Naira Master</span>
+            </div>
+            <div class="nav">
+                <button class="active">Tasks</button>
+                <button>Wallet</button>
+                <button>Profile</button>
+            </div>
+            <div class="user-menu">
+                <div class="avatar">👤</div>
+            </div>
+        </div>
 
-    <div id="taskViewModal" class="modal-overlay hidden">
-        <div class="modal">
-            <div id="taskViewContent"></div>
-            <button onclick="closeTaskView()" class="btn btn-secondary btn-block" style="margin-top:12px;">Close</button>
+        <div class="wallet-card">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div style="position: relative; z-index: 1;">
+                <div style="font-size: 14px; opacity: 0.9;">Available Balance</div>
+                <div style="font-size: 36px; font-weight: 900; margin: 8px 0;">₦2,450.50</div>
+                <div style="font-size: 13px; opacity: 0.8;">Last updated: Today</div>
+            </div>
+        </div>
+
+        <div class="submission-strip mt-4">
+            <div class="item">
+                <div class="count">12</div>
+                <div class="label">Tasks Done</div>
+            </div>
+            <div class="item">
+                <div class="count">8</div>
+                <div class="label">Pending</div>
+            </div>
+            <div class="item">
+                <div class="count">4</div>
+                <div class="label">Rejected</div>
+            </div>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 12px;">Available Tasks</h3>
+            
+            <div class="task-card-v2">
+                <div class="task-header">
+                    <div>
+                        <div class="task-title">Follow Instagram Account</div>
+                        <div class="task-desc">Follow our main Instagram account</div>
+                    </div>
+                    <div class="badge badge-success">Easy</div>
+                </div>
+                <div class="task-meta">
+                    <div class="pill">Social Media</div>
+                    <div class="pill">2 min</div>
+                </div>
+                <div class="task-footer">
+                    <div class="reward">₦150</div>
+                    <div class="performer-count">523 completed</div>
+                </div>
+                <div class="task-actions">
+                    <button class="btn btn-primary" onclick="window.openTaskInNewTab('https://instagram.com')">▶ Perform Task</button>
+                    <button class="btn btn-outline">Details</button>
+                </div>
+                <div class="progress-container">
+                    <div class="bar">
+                        <div class="fill" style="width: 85%;"></div>
+                    </div>
+                    <div class="text">523/615 completed</div>
+                </div>
+            </div>
+
+            <div class="task-card-v2">
+                <div class="task-header">
+                    <div>
+                        <div class="task-title">Like TikTok Video</div>
+                        <div class="task-desc">Like and comment on our latest TikTok video</div>
+                    </div>
+                    <div class="badge badge-warning">Medium</div>
+                </div>
+                <div class="task-meta">
+                    <div class="pill">Social Media</div>
+                    <div class="pill">3 min</div>
+                </div>
+                <div class="task-footer">
+                    <div class="reward">₦200</div>
+                    <div class="performer-count">342 completed</div>
+                </div>
+                <div class="task-actions">
+                    <button class="btn btn-primary" onclick="window.openTaskInNewTab('https://tiktok.com')">▶ Perform Task</button>
+                    <button class="btn btn-outline">Details</button>
+                </div>
+                <div class="progress-container">
+                    <div class="bar">
+                        <div class="fill" style="width: 56%;"></div>
+                    </div>
+                    <div class="text">342/610 completed</div>
+                </div>
+            </div>
+
+            <div class="task-card-v2">
+                <div class="task-header">
+                    <div>
+                        <div class="task-title">Share YouTube Video</div>
+                        <div class="task-desc">Share our YouTube video and take a screenshot</div>
+                    </div>
+                    <div class="badge badge-destructive">Hard</div>
+                </div>
+                <div class="task-meta">
+                    <div class="pill">Social Media</div>
+                    <div class="pill">5 min</div>
+                </div>
+                <div class="task-footer">
+                    <div class="reward">₦500</div>
+                    <div class="performer-count">128 completed</div>
+                </div>
+                <div class="task-actions">
+                    <button class="btn btn-primary" onclick="window.openTaskInNewTab('https://youtube.com')">▶ Perform Task</button>
+                    <button class="btn btn-outline">Details</button>
+                </div>
+                <div class="progress-container">
+                    <div class="bar">
+                        <div class="fill" style="width: 21%;"></div>
+                    </div>
+                    <div class="text">128/600 completed</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="createTaskModal" class="modal-overlay hidden">
-        <div class="modal">
-            <h2 style="font-size:20px;font-weight:800;margin-bottom:8px;">Create Task</h2>
-            <div id="createTaskStep1"></div>
-        </div>
+    <div class="mobile-nav">
+        <button class="active">
+            <div class="icon">🏠</div>
+            <div>Home</div>
+        </button>
+        <button>
+            <div class="icon">💼</div>
+            <div>Tasks</div>
+        </button>
+        <button>
+            <div class="icon">💰</div>
+            <div>Wallet</div>
+        </button>
+        <button>
+            <div class="icon">👤</div>
+            <div>Profile</div>
+        </button>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-
-    <!-- MAIN APPLICATION SCRIPT -->
-    <script>
-        // ═══════════════════════════════════════════════════════════════
-        // PERFORM TASK LINK FIX - OPEN IN NEW TAB
-        // ═══════════════════════════════════════════════════════════════
-        
-        // Function to open task link in new tab
-        function performTaskNewTab(url, event) {
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            if (url) {
-                window.open(url, '_blank', 'noopener,noreferrer');
-                return false;
-            }
-        }
-
-        // Listen for dynamically created perform links
-        document.addEventListener('click', function(e) {
-            // Check if clicked element or its parent is a "Perform" link
-            const link = e.target.closest('a[href]');
-            if (link && (link.textContent.includes('Perform') || link.textContent.includes('▶'))) {
-                if (link.getAttribute('target') !== '_blank') {
-                    link.setAttribute('target', '_blank');
-                    link.setAttribute('rel', 'noopener noreferrer');
-                }
-            }
-        }, true);
-
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBi9KLvyQ8t1XL1vU9pL9-dZ5pP3KlYvLw",
-            authDomain: "nairamaster-ng.firebaseapp.com",
-            projectId: "nairamaster-ng",
-            storageBucket: "nairamaster-ng.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef1234567890"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-
-        // ─── CONFIGURATION ────────────────────────────────────────────
-        const CONFIG = {
-            ADMIN_IDS: ['admin@nairamster.ng'],
-            TIERS: {
-                cobra: { emoji: '🐍', label: 'Cobra', color: '#6c757d', dailyLimit: 5, canCreateTask: false, rewardMultiplier: 1 },
-                lieutenant: { emoji: '⭐', label: 'Lieutenant', color: '#1d4ed8', dailyLimit: 10, canCreateTask: true, rewardMultiplier: 1.2 },
-                commander: { emoji: '🎖️', label: 'Commander', color: '#f59e0b', dailyLimit: 20, canCreateTask: true, rewardMultiplier: 1.5 },
-                general: { emoji: '👑', label: 'General', color: '#fbbf24', dailyLimit: 999, canCreateTask: true, rewardMultiplier: 2 }
-            },
-            CATEGORIES: ['Social Media', 'Website', 'App Download', 'Referral', 'Survey', 'Video', 'Contest', 'Other'],
-            MAX_PERFORMERS: 50,
-            TASK_DISTRIBUTION_AMOUNT: 1500,
-            MIN_WITHDRAWAL: 500
-        };
-
-        let userDataCache = { tasks: [], submissions: [], users: [] };
-
-        // ─── PERFORM TASK (ENSURE NEW TAB) ────────────────────────────
-        async function performTask(taskUrl, taskId) {
-            // Open link in new tab (bypassing same-window navigation)
-            if (taskUrl) {
-                window.open(taskUrl, '_blank', 'noopener,noreferrer');
-            }
-        }
-
-        // ─── REST OF APPLICATION CODE ─────────────────────────────────
-        // [Your existing code continues below...]
-    </script>
 </body>
 </html>
