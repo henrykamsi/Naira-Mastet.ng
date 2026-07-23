@@ -4235,7 +4235,7 @@
                                 <div class="task-footer"><span class="reward">${formatNaira(t.reward)}</span><span class="performer-count">${t.performerCount || 0}/${t.maxPerformers}</span></div>
                                 <div class="progress-container"><div class="bar"><div class="fill" style="width:${Math.min(100, progress)}%;${isComplete ? 'background:var(--success);' : ''}"></div></div><div class="text">${Math.min(100, progress)}% complete</div></div>
                                 <div class="task-actions">
-                                    <a href="${t.link}" target="_blank" class="btn btn-secondary btn-sm" style="flex:1;${isFrozen || taskLimitReached ? 'opacity:0.5;pointer-events:none;' : ''}">▶ Perform</a>
+                                    <a href="${t.link}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="flex:1;${isFrozen || taskLimitReached ? 'opacity:0.5;pointer-events:none;' : ''}">▶ Perform</a>
                                     <button onclick="viewTask('${actualTaskId}')" class="btn btn-outline btn-sm" style="flex:1;">👁 View</button>
                                     ${!isSubmitted && !isComplete && !taskLimitReached ? `<button onclick="submitScreenshot('${actualTaskId}')" class="btn btn-primary btn-sm" style="flex:1;">📷 Submit</button>` : ''}
                                     ${taskLimitReached && !isSubmitted && !isComplete ? `<span style="font-size:11px;color:var(--destructive);">🔒 Limit reached</span>` : ''}
