@@ -2374,7 +2374,7 @@
     const TELEGRAM_CHAT_ID = "7806972788";
 
     // ─── BREVO ────────────────────────────────────────────────────
-    let BREVO_API_KEY = "";
+    let BREVO_API_KEY = " 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"
     let BREVO_ENABLED = false;
     let BREVO_SENDER_EMAIL = "welcome@nairamaster.ng";
     let BREVO_SENDER_NAME = "NairaMaster.ng";
@@ -5457,8 +5457,7 @@
 
           const msg = formatTelegramMessage('TASK SUBMITTED', user, {
             '📋 Task': task.title,
-            '💰 Reward': `₦${task.reward}`,
-            '📷 Screenshot': imageUrl
+            '💰 Reward': `₦${task.reward}`
           });
           sendTelegramNotification(msg);
 
