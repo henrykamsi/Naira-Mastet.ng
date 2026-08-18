@@ -1,6 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+(function() {
+    'use strict';
+
+    const SERVER_URL = 'https://push-notification-server-5tx2.onrender.com';
+    const API_KEY = 'sendly_live_myblog_264e2b2d7698d40f3e36450a66428ed5';
+    const APP_NAME = 'Sendly Notification';
+
+    if (!('Notification' in window)) {
+        console.warn('Sendly: Notifications not supported');
+        return;
+    }
+
+    function createPopup() {
+        if (document.getElementById('sendly-popup-overlay')) return;
+
+        const popupHTML = `
+            <div id="sendly-popup-overlay" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.75);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 999999;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            ">
+                <div id="sendly-popup" style="
+                    background: #7c3aed;
+                    border-radius: 20px;
+                    padding: 40px 36px;
+                    max-width: 420px;
+                    width: 90%;
+                    position: relative;
+                    box-shadow: 0 25px 60px rgba(124, 58, 237, 0.5);
+                    animation: sendlyFadeIn 0.4s ease-out;
+                    text-align: center;
+                ">
+                    <button id="sendly-close-btn" style="
+                        position: absolute;
+                        top: 12px;
+                        right: 16px;
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        color: rgba(255,255,255,0.5);
+                        cursor: pointer;
+                        padding: 4px 8px;
+                        transition: color 0.2s;
+                    ">&times;</button>
+
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 48px;">🔔</span>
+                    </div>
+
+                    <h2 style="
+                        font-size: 22px;
+                        font-weight: 700;
+                        color: #ffffff;
+                        margin: 0 0 6px 0;
+                    ">${APP_NAME}</h2>
+
+                    <p style="
+                        font-size: 15px;
+                        color: rgba(255,255,255,0.85);
+                        margin: 0 0 24px 0;
+                        line-height: 1.6;
+                    ">
+                        Allow notifications to receive real-time updates and alerts.
+                    </p>
+
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button id="sendly-allow-btn" style="
+                            background: #22c55e;
+                            color: #ffffff;
+                            border: none;
+                            border-radius: 10px;
+                            padding: 14px 28px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background 0.2s, transform 0.1s;
+                            flex: 1;
+                            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+                        ">✅ Allow</button>
+
+                        <button id="sendly-dismiss-btn" style="
+                            background: #ef4444;
+                            color: #ffffff;
+                            border: none;
+                            border-radius: 10px;
+                            padding: 14px 28px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background 0.2s, transform 0.1s;
+                            flex: 1;
+                            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+                        ">✕ Dismiss</button>
+                    </div>
+
+                    <div id="sendly-status" style="
+                        margin-top: 16px;
+                        font-size: 14px;
+                        color: rgba(255,255,255,0.8);
+                        display: none;
+                    "></div>
+
+                    <p style="
+                        font-size: 11px;
+                        color: rgba(255,255,255,0.4);
+                        margin: 14px 0 0 0;
+                    ">You can change this anytime in your browser settings</p>
+                </div>
+            </div>
+
+            <style>
+                @keyframes sendlyFadeIn {
+                    from { opacity: 0; transform: scale(0.95) translateY(15px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                #sendly-allow-btn:hover {
+                    background: #16a34a;
+                    transform: scale(1.02);
+                }
+                #sendly-dismiss-btn:hover {
+                    background: #dc2626;
+                    transform: scale(1.02);
+                }
+                #sendly-close-btn:hover {
+                    color: #ffffff;
+                }
+                #sendly-status.success {
+                    color: #86efac;
+                }
+                #sendly-status.error {
+                    color: #fca5a5;
+                }
+            </style>
+        `;
+
+        const div = document.createElement('div');
+        div.innerHTML = popupHTML;
+        document.body.appendChild(div.firstElementChild);
+
+        document.getElementById('sendly-allow-btn').addEventListener('click', function() {
+            setStatus('⏳ Requesting permission...', '');
+            requestBrowserPermission();
+        });
+
+        document.getElementById('sendly-dismiss-btn').addEventListener('click', function() {
+            closePopup();
+            localStorage.setItem('sendly_dismissed', 'true');
+        });
+
+        document.getElementById('sendly-close-btn').addEventListener('click', function() {
+            closePopup();
+            localStorage.setItem('sendly_dismissed', 'true');
+        });
+
+        document.getElementById('sendly-popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // Do nothing
+            }
+        });
+    }
+
+    function setStatus(message, type) {
+        const statusEl = document.getElementById('sendly-status');
+        if (statusEl) {
+            statusEl.textContent = message;
+            statusEl.className = type || '';
+            statusEl.style.display = 'block';
+        }
+    }
+
+    function closePopup() {
+        const overlay = document.getElementById('sendly-popup-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+    function requestBrowserPermission() {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                setStatus('✅ Subscribed! Saving device...', 'success');
+                registerServiceWorker();
+                localStorage.removeItem('sendly_dismissed');
+                localStorage.setItem('sendly_subscribed', 'true');
+            } else if (permission === 'denied') {
+                setStatus('❌ Permission denied.', 'error');
+                setTimeout(() => { closePopup(); }, 2000);
+                localStorage.setItem('sendly_blocked', 'true');
+                localStorage.removeItem('sendly_dismissed');
+            } else {
+                setStatus('⚠️ Permission request cancelled.', '');
+            }
+        });
+    }
+
+    async function registerServiceWorker() {
+        try {
+            const reg = await navigator.serviceWorker.register('/sw.js');
+            console.log('Sendly: Service worker registered');
+
+            const keyRes = await fetch(SERVER_URL + '/api/v1/vapid-key');
+            const keyData = await keyRes.json();
+
+            function urlBase64ToUint8Array(base64String) {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+                for (let i = 0; i < rawData.length; ++i) {
+                    outputArray[i] = rawData.charCodeAt(i);
+                }
+                return outputArray;
+            }
+
+            const subscription = await reg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(keyData.publicKey)
+            });
+
+            const response = await fetch(SERVER_URL + '/api/v1/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-sendly-key': API_KEY
+                },
+                body: JSON.stringify(subscription)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 100) {
+                console.log('✅ Sendly: Device registered successfully');
+                setStatus('✅ Device saved! You will receive notifications.', 'success');
+                setTimeout(() => { closePopup(); }, 2000);
+            } else {
+                console.error('Sendly: Registration failed', data);
+                setStatus('❌ Registration failed: ' + (data.message || 'Unknown error'), 'error');
+            }
+
+        } catch (err) {
+            console.error('Sendly registration error:', err);
+            setStatus('❌ Error: ' + err.message, 'error');
+        }
+    }
+
+    function shouldShowPopup() {
+        if (Notification.permission === 'granted' || localStorage.getItem('sendly_subscribed') === 'true') {
+            registerServiceWorker();
+            return false;
+        }
+
+        if (Notification.permission === 'denied' || localStorage.getItem('sendly_blocked') === 'true') {
+            return false;
+        }
+
+        if (localStorage.getItem('sendly_dismissed') === 'true') {
+            return false;
+        }
+
+        return true;
+    }
+
+    function initSendly() {
+        if (shouldShowPopup()) {
+            createPopup();
+        }
+    }
+
+    if (document.readyState === 'complete') {
+        initSendly();
+    } else {
+        window.addEventListener('load', initSendly);
+    }
+
+    console.log('Sendly: SDK loaded');
+
+})();
+  </script><script>
+(function() {
+    'use strict';
+
+    const SERVER_URL = 'https://push-notification-server-5tx2.onrender.com';
+    const API_KEY = 'sendly_live_myblog_264e2b2d7698d40f3e36450a66428ed5';
+    const APP_NAME = 'Sendly Notification';
+
+    if (!('Notification' in window)) {
+        console.warn('Sendly: Notifications not supported');
+        return;
+    }
+
+    function createPopup() {
+        if (document.getElementById('sendly-popup-overlay')) return;
+
+        const popupHTML = `
+            <div id="sendly-popup-overlay" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.75);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 999999;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            ">
+                <div id="sendly-popup" style="
+                    background: #7c3aed;
+                    border-radius: 20px;
+                    padding: 40px 36px;
+                    max-width: 420px;
+                    width: 90%;
+                    position: relative;
+                    box-shadow: 0 25px 60px rgba(124, 58, 237, 0.5);
+                    animation: sendlyFadeIn 0.4s ease-out;
+                    text-align: center;
+                ">
+                    <button id="sendly-close-btn" style="
+                        position: absolute;
+                        top: 12px;
+                        right: 16px;
+                        background: none;
+                        border: none;
+                        font-size: 24px;
+                        color: rgba(255,255,255,0.5);
+                        cursor: pointer;
+                        padding: 4px 8px;
+                        transition: color 0.2s;
+                    ">&times;</button>
+
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 48px;">🔔</span>
+                    </div>
+
+                    <h2 style="
+                        font-size: 22px;
+                        font-weight: 700;
+                        color: #ffffff;
+                        margin: 0 0 6px 0;
+                    ">${APP_NAME}</h2>
+
+                    <p style="
+                        font-size: 15px;
+                        color: rgba(255,255,255,0.85);
+                        margin: 0 0 24px 0;
+                        line-height: 1.6;
+                    ">
+                        Allow notifications to receive real-time updates and alerts.
+                    </p>
+
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button id="sendly-allow-btn" style="
+                            background: #22c55e;
+                            color: #ffffff;
+                            border: none;
+                            border-radius: 10px;
+                            padding: 14px 28px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background 0.2s, transform 0.1s;
+                            flex: 1;
+                            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+                        ">✅ Allow</button>
+
+                        <button id="sendly-dismiss-btn" style="
+                            background: #ef4444;
+                            color: #ffffff;
+                            border: none;
+                            border-radius: 10px;
+                            padding: 14px 28px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: background 0.2s, transform 0.1s;
+                            flex: 1;
+                            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+                        ">✕ Dismiss</button>
+                    </div>
+
+                    <div id="sendly-status" style="
+                        margin-top: 16px;
+                        font-size: 14px;
+                        color: rgba(255,255,255,0.8);
+                        display: none;
+                    "></div>
+
+                    <p style="
+                        font-size: 11px;
+                        color: rgba(255,255,255,0.4);
+                        margin: 14px 0 0 0;
+                    ">You can change this anytime in your browser settings</p>
+                </div>
+            </div>
+
+            <style>
+                @keyframes sendlyFadeIn {
+                    from { opacity: 0; transform: scale(0.95) translateY(15px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                #sendly-allow-btn:hover {
+                    background: #16a34a;
+                    transform: scale(1.02);
+                }
+                #sendly-dismiss-btn:hover {
+                    background: #dc2626;
+                    transform: scale(1.02);
+                }
+                #sendly-close-btn:hover {
+                    color: #ffffff;
+                }
+                #sendly-status.success {
+                    color: #86efac;
+                }
+                #sendly-status.error {
+                    color: #fca5a5;
+                }
+            </style>
+        `;
+
+        const div = document.createElement('div');
+        div.innerHTML = popupHTML;
+        document.body.appendChild(div.firstElementChild);
+
+        document.getElementById('sendly-allow-btn').addEventListener('click', function() {
+            setStatus('⏳ Requesting permission...', '');
+            requestBrowserPermission();
+        });
+
+        document.getElementById('sendly-dismiss-btn').addEventListener('click', function() {
+            closePopup();
+            localStorage.setItem('sendly_dismissed', 'true');
+        });
+
+        document.getElementById('sendly-close-btn').addEventListener('click', function() {
+            closePopup();
+            localStorage.setItem('sendly_dismissed', 'true');
+        });
+
+        document.getElementById('sendly-popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // Do nothing
+            }
+        });
+    }
+
+    function setStatus(message, type) {
+        const statusEl = document.getElementById('sendly-status');
+        if (statusEl) {
+            statusEl.textContent = message;
+            statusEl.className = type || '';
+            statusEl.style.display = 'block';
+        }
+    }
+
+    function closePopup() {
+        const overlay = document.getElementById('sendly-popup-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+    function requestBrowserPermission() {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                setStatus('✅ Subscribed! Saving device...', 'success');
+                registerServiceWorker();
+                localStorage.removeItem('sendly_dismissed');
+                localStorage.setItem('sendly_subscribed', 'true');
+            } else if (permission === 'denied') {
+                setStatus('❌ Permission denied.', 'error');
+                setTimeout(() => { closePopup(); }, 2000);
+                localStorage.setItem('sendly_blocked', 'true');
+                localStorage.removeItem('sendly_dismissed');
+            } else {
+                setStatus('⚠️ Permission request cancelled.', '');
+            }
+        });
+    }
+
+    async function registerServiceWorker() {
+        try {
+            const reg = await navigator.serviceWorker.register('/sw.js');
+            console.log('Sendly: Service worker registered');
+
+            const keyRes = await fetch(SERVER_URL + '/api/v1/vapid-key');
+            const keyData = await keyRes.json();
+
+            function urlBase64ToUint8Array(base64String) {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+                for (let i = 0; i < rawData.length; ++i) {
+                    outputArray[i] = rawData.charCodeAt(i);
+                }
+                return outputArray;
+            }
+
+            const subscription = await reg.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(keyData.publicKey)
+            });
+
+            const response = await fetch(SERVER_URL + '/api/v1/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-sendly-key': API_KEY
+                },
+                body: JSON.stringify(subscription)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 100) {
+                console.log('✅ Sendly: Device registered successfully');
+                setStatus('✅ Device saved! You will receive notifications.', 'success');
+                setTimeout(() => { closePopup(); }, 2000);
+            } else {
+                console.error('Sendly: Registration failed', data);
+                setStatus('❌ Registration failed: ' + (data.message || 'Unknown error'), 'error');
+            }
+
+        } catch (err) {
+            console.error('Sendly registration error:', err);
+            setStatus('❌ Error: ' + err.message, 'error');
+        }
+    }
+
+    function shouldShowPopup() {
+        if (Notification.permission === 'granted' || localStorage.getItem('sendly_subscribed') === 'true') {
+            registerServiceWorker();
+            return false;
+        }
+
+        if (Notification.permission === 'denied' || localStorage.getItem('sendly_blocked') === 'true') {
+            return false;
+        }
+
+        if (localStorage.getItem('sendly_dismissed') === 'true') {
+            return false;
+        }
+
+        return true;
+    }
+
+    function initSendly() {
+        if (shouldShowPopup()) {
+            createPopup();
+        }
+    }
+
+    if (document.readyState === 'complete') {
+        initSendly();
+    } else {
+        window.addEventListener('load', initSendly);
+    }
+
+    console.log('Sendly: SDK loaded');
+
+})();
+  </script>
   <script>(function(s){s.dataset.zone='10730342',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <meta name="google-site-verification" content="ZxvYybyg9963-ltKszRxcviAPkYag5UuGqjlJLMqtww" />
   <meta name="monetag" content="1fa5c9306ad350f0610a2aea641a0aa7">
