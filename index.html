@@ -9896,4 +9896,265 @@
     console.log('🔥 READY FOR PRODUCTION!');
   </script>
 </body>
+  <!-- Naira Master Comprehensive Onboarding & Footer Component -->
+<div id="naira-master-onboarding-overlay" class="nm-overlay">
+    <div class="nm-modal">
+        <div class="nm-progress-header">
+            <span id="nm-page-indicator">1/5</span>
+        </div>
+        <div class="nm-progress-bar">
+            <div id="nm-progress" class="nm-progress-fill" style="width: 20%;"></div>
+        </div>
+
+        <div class="nm-slide-container">
+            <!-- Page 1: Vision of Henry Global Tech (1/5) -->
+            <div class="nm-slide active" data-page="1">
+                <h2>1. Vision of Henry Global Tech</h2>
+                <div class="nm-scrollable-desc">
+                    <p>Welcome to <strong>Naira Master</strong>, a flagship digital utility platform engineered and maintained by <strong>Henry Global Tech (HGT) Industry</strong> (accessible via our official domain at <strong>www.henryglobaltech.name.ng</strong>). The primary vision of Henry Global Tech is to bridge the technological divide across Africa by crafting scalable web applications, progressive web utilities, and rewarding digital ecosystems that solve everyday economic challenges.</p>
+                    <p>At HGT, we believe that software should be functional, transparent, and direct. Naira Master was conceptualized to serve as a secure digital hub where users can interact with modern task verification systems, manage digital asset wallets seamlessly, and gain access to continuous platform updates published directly by our administration.</p>
+                </div>
+            </div>
+
+            <!-- Page 2: What is Naira Master & Student Empowerment (2/5) -->
+            <div class="nm-slide" data-page="2">
+                <h2>2. Empowering Students & Digital Earners</h2>
+                <div class="nm-scrollable-desc">
+                    <p><strong>Naira Master</strong> is specially built to help everyday users, particularly students and ambitious youths, earn a reliable stream of extra income right from their internet-enabled mobile phones and computers. We recognize the financial pressures faced by students, which is why Naira Master provides straightforward, legitimate avenues to monetize free time through structured micro-engagements.</p>
+                    <p>The platform features a dedicated dashboard layout equipped with a comprehensive wallet section at the top, featuring quick access buttons for 'Add Money' and 'Withdraw Money'. Below the wallet, users can cleanly track their progress across <strong>Approved Tasks</strong> (complete with transaction verification logs), <strong>Declined Tasks</strong> (accompanied by precise rejection timestamps for absolute clarity), <strong>Pending Tasks</strong> (awaiting admin review), and an <strong>App Update</strong> feed keeping everyone informed of new features.</p>
+                </div>
+            </div>
+
+            <!-- Page 3: How Naira Master Was Built & Earning Plans (3/5) -->
+            <div class="nm-slide" data-page="3">
+                <h2>3. Architecture, Free & Paid Plans</h2>
+                <div class="nm-scrollable-desc">
+                    <p>Naira Master was meticulously built using modern web development standards, leveraging secure backend database integrations via Supabase for user verification, password security, and encrypted session management. New users sign up smoothly with their name, surname, email, and secure password, confirming via email links where applicable.</p>
+                    <p>To accommodate all user brackets, Naira Master operates on a dual-tier model. It features a robust <strong>paid plan</strong> designed for power users seeking maximized task yields and faster progression, alongside an exceptionally <strong>generous free plan</strong>. The free plan ensures that anyone—regardless of initial financial capital—can participate, complete approved tasks, accumulate earnings, and request withdrawals without administrative friction.</p>
+                </div>
+            </div>
+
+            <!-- Page 4: Safety, Compliance & Trust (4/5) -->
+            <div class="nm-slide" data-page="4">
+                <h2>4. Trust, Security & Compliance</h2>
+                <div class="nm-scrollable-desc">
+                    <p>Trust and data integrity form the bedrock of Henry Global Tech operations. Every activity on Naira Master—from task submission to wallet payout requests—is monitored under strict data protection guidelines. We maintain transparency regarding why tasks might be approved or declined, ensuring users always understand their account standing.</p>
+                    <p>In full compliance with web publisher guidelines and advertising standards (such as Google AdSense), our platform maintains open accessibility, explicit ownership disclosures, and readily available legal pages. Our commitment is to provide a clean, family-friendly, high-value web environment that respects user privacy and delivers genuine utility.</p>
+                </div>
+            </div>
+
+            <!-- Page 5: Get Started (5/5) -->
+            <div class="nm-slide" data-page="5">
+                <h2>5. Ready to Get Started?</h2>
+                <div class="nm-scrollable-desc">
+                    <p>You have now explored the core vision of Henry Global Tech and the mechanics behind Naira Master. Whether you are a student looking to earn extra cash on the side or a digital enthusiast ready to explore our ecosystem, everything is set up for you.</p>
+                    <p>Click the button below to enter the main sign-up and login portal, access your user wallet, and begin your journey with us today!</p>
+                </div>
+                <button id="nm-get-started-btn" class="nm-btn-primary">Get Started</button>
+            </div>
+        </div>
+
+        <div class="nm-nav-controls">
+            <button id="nm-prev-btn" class="nm-btn-secondary" disabled>Prev</button>
+            <button id="nm-next-btn" class="nm-btn-primary">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- Official Footer Links (Place at the very bottom of your website layout) -->
+<footer class="nm-site-footer">
+    <p>&copy; 2026 Henry Global Tech Industry (www.henryglobaltech.name.ng). All rights reserved.</p>
+    <div class="nm-footer-links">
+        <a href="#" id="nm-open-about">About Us / Vision</a> | 
+        <a href="privacy-policy.html">Privacy Policy</a> | 
+        <a href="contact.html">Contact Us</a>
+    </div>
+</footer>
+
+<style>
+/* Clean Styling Rules for the Onboarding Component */
+.nm-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+.nm-modal {
+    background: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+}
+.nm-progress-header {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 6px;
+}
+.nm-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.nm-progress-fill {
+    height: 100%;
+    background: #2563eb;
+    transition: width 0.3s ease;
+}
+.nm-slide-container {
+    min-height: 240px;
+    max-height: 320px;
+    margin-bottom: 20px;
+}
+.nm-slide {
+    display: none;
+}
+.nm-slide.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+.nm-slide h2 {
+    color: #1e293b;
+    margin-top: 0;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+.nm-scrollable-desc {
+    max-height: 210px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.nm-slide p {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+.nm-nav-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+}
+.nm-btn-primary, .nm-btn-secondary {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.nm-btn-primary {
+    background: #2563eb;
+    color: white;
+}
+.nm-btn-primary:hover { background: #1d4ed8; }
+.nm-btn-secondary {
+    background: #e2e8f0;
+    color: #475569;
+}
+.nm-btn-secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.nm-site-footer {
+    text-align: center;
+    padding: 25px 15px;
+    font-size: 0.85rem;
+    color: #64748b;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+}
+.nm-footer-links {
+    margin-top: 8px;
+}
+.nm-footer-links a {
+    color: #2563eb;
+    text-decoration: none;
+    margin: 0 6px;
+    font-weight: 500;
+}
+.nm-footer-links a:hover { text-decoration: underline; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let currentSlide = 1;
+    const totalSlides = 5;
+    
+    const slides = document.querySelectorAll(".nm-slide");
+    const prevBtn = document.getElementById("nm-prev-btn");
+    const nextBtn = document.getElementById("nm-next-btn");
+    const progressFill = document.getElementById("nm-progress");
+    const pageIndicator = document.getElementById("nm-page-indicator");
+    const overlay = document.getElementById("naira-master-onboarding-overlay");
+    const getStartedBtn = document.getElementById("nm-get-started-btn");
+    const openAboutLink = document.getElementById("nm-open-about");
+
+    function updateCarousel() {
+        slides.forEach(slide => {
+            if (parseInt(slide.getAttribute("data-page")) === currentSlide) {
+                slide.classList.add("active");
+            } else {
+                slide.classList.remove("active");
+            }
+        });
+
+        // Updates indicator to format: 1/5, 2/5, 3/5, etc.
+        pageIndicator.textContent = `${currentSlide}/${totalSlides}`;
+        progressFill.style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+        prevBtn.disabled = currentSlide === 1;
+        
+        if (currentSlide === totalSlides) {
+            nextBtn.style.display = "none";
+        } else {
+            nextBtn.style.display = "inline-block";
+        }
+    }
+
+    nextBtn.addEventListener("click", () => {
+        if (currentSlide < totalSlides) {
+            currentSlide++;
+            updateCarousel();
+        }
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentSlide > 1) {
+            currentSlide--;
+            updateCarousel();
+        }
+    });
+
+    getStartedBtn.addEventListener("click", () => {
+        overlay.style.display = "none";
+        localStorage.setItem("nm_onboarded", "true");
+    });
+
+    openAboutLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentSlide = 1;
+        updateCarousel();
+        overlay.style.display = "flex";
+    });
+});
+</script>
+
 </html>
