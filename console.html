@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#16a34a">
+  <meta name="description" content="Naira Master Console">
+  <title>Naira Master Console</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --primary-light: #dcfce7;
+      --bg: #f5f7f6;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --shadow: 0 8px 30px rgba(0,0,0,.07);
+      --radius: 18px;
+    }
+
+    html.dark {
+      --primary: #22c55e;
+      --primary-dark: #16a34a;
+      --primary-light: #14361f;
+      --bg: #0f1418;
+      --card: #1a2228;
+      --text: #e8edf0;
+      --muted: #94a3b8;
+      --border: #2a343d;
+      --danger: #f87171;
+      --danger-bg: #3f1d1d;
+      --warning: #fbbf24;
+      --warning-bg: #3f3115;
+      --shadow: 0 8px 30px rgba(0,0,0,.4);
+    }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
+      transition: background .25s ease, color .25s ease;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    /* STARTUP LOADER */
+    #startupLoader {
+      position: fixed; inset: 0; z-index: 99999; background: var(--card);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    #startupLoader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-box { text-align: center; padding: 30px; }
+    .loader-logo {
+      width: 70px; height: 70px; border-radius: 20px;
+      background: var(--primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px; font-size: 30px; font-weight: 900;
+      box-shadow: 0 10px 30px rgba(22,163,74,.25);
+    }
+    .spinner {
+      width: 34px; height: 34px;
+      border: 4px solid var(--primary-light);
+      border-top-color: var(--primary);
+      border-radius: 50%; animation: spin .8s linear infinite;
+      margin: 0 auto 14px;
+    }
+    .loader-title { font-weight: 800; font-size: 18px; color: var(--text); }
+    .loader-subtitle { margin-top: 6px; color: var(--muted); font-size: 13px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* AUTH */
+    #authScreen {
+      min-height: 100vh; padding: 24px 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .auth-container { width: 100%; max-width: 430px; }
+    .brand { text-align: center; margin-bottom: 24px; }
+    .brand-icon {
+      width: 72px; height: 72px; background: var(--primary); color: white;
+      border-radius: 22px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px; font-size: 31px; font-weight: 900;
+      box-shadow: 0 12px 35px rgba(22,163,74,.25);
+    }
+    .brand h1 { font-size: 28px; font-weight: 900; }
+    .brand p { color: var(--muted); margin-top: 6px; font-size: 14px; }
+    .auth-card {
+      background: var(--card); border-radius: 24px; padding: 22px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .auth-tabs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+      background: var(--bg); padding: 5px; border-radius: 12px; margin-bottom: 20px;
+    }
+    .auth-tab {
+      border: none; background: transparent; padding: 11px; border-radius: 9px;
+      font-weight: 700; color: var(--muted);
+    }
+    .auth-tab.active {
+      background: var(--card); color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    }
+    .form-group { margin-bottom: 15px; }
+    .label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
+    .input, .select, .textarea {
+      width: 100%; border: 1px solid var(--border);
+      background: var(--card); border-radius: 12px;
+      padding: 13px 14px; outline: none; transition: .2s; color: var(--text);
+    }
+    .textarea { min-height: 110px; resize: vertical; }
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(22,163,74,.10);
+    }
+    .password-wrap { position: relative; }
+    .password-wrap .input { padding-right: 50px; }
+    .show-password {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      border: none; background: transparent; color: var(--muted);
+      font-size: 13px; font-weight: 700;
+    }
+    .strength { margin-top: 7px; }
+    .strength-bar { height: 5px; border-radius: 10px; background: var(--border); overflow: hidden; }
+    .strength-fill { height: 100%; width: 0; transition: .25s; }
+    .strength-text { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    .btn {
+      width: 100%; border: none; border-radius: 12px;
+      padding: 13px 16px; font-weight: 800;
+      transition: transform .15s, opacity .15s, background .15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      color: var(--text);
+    }
+    .btn:active { transform: scale(.98); }
+    .btn:disabled { opacity: .6; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary { background: var(--bg); color: var(--text); }
+    .btn-google { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      color: #9ca3af; font-size: 12px; margin: 18px 0;
+    }
+    .divider::before, .divider::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+    .auth-message { font-size: 13px; margin-top: 12px; text-align: center; min-height: 18px; }
+    .error { color: var(--danger); }
+    .success { color: var(--primary-dark); }
+    .mini-spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: white; border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    /* APP */
+    #appScreen { min-height: 100vh; padding-bottom: 85px; }
+    .top-header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-inner {
+      max-width: 1000px; margin: auto; padding: 14px 16px;
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    }
+    .user-info { min-width: 0; }
+    .user-name { font-size: 15px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-email {
+      color: var(--muted); font-size: 11px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;
+    }
+    .balance-mini { display: flex; align-items: center; gap: 8px; }
+    .balance-text { text-align: right; }
+    .balance-label { color: var(--muted); font-size: 10px; }
+    .balance-value { font-weight: 900; font-size: 16px; }
+    .icon-btn {
+      width: 38px; height: 38px; border: 1px solid var(--border);
+      background: var(--card); border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+    }
+    .icon-btn.loading { animation: spin .8s linear infinite; }
+
+    .content { max-width: 1000px; margin: auto; padding: 18px 16px 30px; }
+    .page { display: none; animation: pageIn .25s ease; }
+    .page.active { display: block; }
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-title { font-size: 24px; font-weight: 900; margin-bottom: 5px; }
+    .page-subtitle { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.035); margin-bottom: 15px;
+    }
+    .balance-card {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white; border: none; padding: 22px;
+    }
+    .balance-card .balance-label { color: rgba(255,255,255,.8); font-size: 12px; }
+    .big-balance { font-size: 34px; font-weight: 950; margin: 7px 0 18px; }
+    .balance-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .white-btn { background: white; color: var(--primary-dark); }
+    .outline-white {
+      border: 1px solid rgba(255,255,255,.5);
+      color: white; background: transparent;
+    }
+    .section-title { font-size: 17px; font-weight: 900; margin-bottom: 13px; }
+    .form-row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+
+    .fee-box {
+      background: var(--primary-light); border: 1px solid var(--primary);
+      border-radius: 12px; padding: 13px; margin-bottom: 15px;
+    }
+    .fee-line { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .fee-line strong { font-size: 17px; }
+
+    .task-card { padding: 17px; position: relative; }
+    .task-top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; align-items: flex-start; }
+    .task-title { font-weight: 900; font-size: 16px; }
+    .badge {
+      padding: 5px 8px; border-radius: 999px; font-size: 10px;
+      font-weight: 800; background: var(--primary-light); color: var(--primary-dark);
+      white-space: nowrap; height: fit-content;
+    }
+    .badge.paused { background: var(--warning-bg); color: var(--warning); }
+    .badge.deleted { background: var(--danger-bg); color: var(--danger); }
+    .badge.failed { background: var(--danger-bg); color: var(--danger); }
+    .badge.pending { background: var(--warning-bg); color: var(--warning); }
+    .task-description { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 12px; }
+    .task-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-bottom: 13px; }
+    .meta-item { background: var(--bg); border-radius: 10px; padding: 10px; }
+    .meta-label { color: var(--muted); font-size: 10px; margin-bottom: 3px; }
+    .meta-value { font-size: 13px; font-weight: 800; }
+    .progress-wrap { margin-top: 10px; }
+    .progress-head { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; }
+    .progress {
+      height: 9px; border-radius: 20px; background: var(--border); overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; background: var(--primary);
+      border-radius: 20px; transition: width .5s ease;
+    }
+
+    .task-menu-btn {
+      position: absolute; top: 12px; right: 12px;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: var(--text);
+      z-index: 2;
+    }
+    .task-menu {
+      position: absolute; top: 52px; right: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: var(--shadow);
+      min-width: 160px; z-index: 10; overflow: hidden;
+    }
+    .task-menu button {
+      width: 100%; text-align: left; padding: 12px 16px;
+      background: transparent; border: none; font-weight: 700;
+      font-size: 13px; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .task-menu button:hover { background: var(--bg); }
+    .task-menu button.danger { color: var(--danger); }
+
+    .transaction {
+      border-bottom: 1px solid var(--border); padding: 14px 0;
+    }
+    .transaction:last-child { border-bottom: none; }
+    .transaction-top { display: flex; justify-content: space-between; gap: 10px; }
+    .transaction-purpose { font-weight: 800; font-size: 14px; }
+    .transaction-date { color: var(--muted); font-size: 10px; margin-top: 3px; }
+    .transaction-amount { font-weight: 900; font-size: 14px; }
+    .transaction-ref { color: var(--muted); font-size: 10px; margin-top: 7px; word-break: break-all; }
+
+    .settings-item {
+      width: 100%; border: none; background: var(--card);
+      border-bottom: 1px solid var(--border); padding: 16px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      text-align: left; color: var(--text);
+    }
+    .settings-item:last-child { border-bottom: none; }
+    .settings-title { font-weight: 800; font-size: 14px; }
+    .settings-subtitle { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .danger-btn { color: var(--danger); }
+
+    .empty { text-align: center; padding: 35px 15px; color: var(--muted); font-size: 13px; }
+    .empty-icon { font-size: 35px; margin-bottom: 8px; }
+
+    .dark-toggle {
+      position: relative; width: 52px; height: 28px;
+      background: var(--border); border-radius: 14px;
+      transition: .25s; border: none;
+    }
+    .dark-toggle .thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 24px; height: 24px; background: white; border-radius: 50%;
+      transition: .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    html.dark .dark-toggle { background: var(--primary); }
+    html.dark .dark-toggle .thumb { left: 26px; }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+      background: color-mix(in srgb, var(--card) 97%, transparent);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      z-index: 100; display: flex; justify-content: center;
+    }
+    .nav-inner {
+      width: 100%; max-width: 700px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .nav-btn {
+      border: none; background: transparent; color: var(--muted);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 4px; font-size: 10px; font-weight: 700;
+    }
+    .nav-icon { font-size: 20px; }
+    .nav-btn.active { color: var(--primary); }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(17,24,39,.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; animation: fadeIn .2s ease;
+    }
+    .modal {
+      width: 100%; max-width: 410px; background: var(--card);
+      border-radius: 22px; padding: 23px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      animation: modalIn .25s ease; color: var(--text);
+      max-height: 90vh; overflow-y: auto;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(15px) scale(.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-title { font-size: 20px; font-weight: 900; margin-bottom: 7px; }
+    .modal-subtitle { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 18px; }
+
+    .status-check {
+      width: 82px; height: 82px; border-radius: 50%;
+      color: white; margin: 0 auto 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px; font-weight: 900;
+      animation: checkPop .5s cubic-bezier(.18,.89,.32,1.28);
+    }
+    .status-check.success {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      box-shadow: 0 12px 30px rgba(34,197,94,.4);
+    }
+    .status-check.fail {
+      background: linear-gradient(135deg, #f87171, #dc2626);
+      box-shadow: 0 12px 30px rgba(220,38,38,.4);
+    }
+    @keyframes checkPop {
+      0% { transform: scale(.2); opacity: 0; }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .payment-info { background: var(--bg); border-radius: 13px; padding: 12px; margin: 15px 0; }
+    .payment-line {
+      display: flex; justify-content: space-between; gap: 10px;
+      padding: 6px 0; font-size: 12px;
+    }
+    .payment-line span:first-child { color: var(--muted); }
+    .payment-line strong { text-align: right; word-break: break-all; }
+
+    .toast-container {
+      position: fixed; top: 15px; right: 15px; left: 15px;
+      z-index: 999999; display: flex; flex-direction: column;
+      align-items: center; pointer-events: none;
+    }
+    .toast {
+      background: #111827; color: white; padding: 12px 15px;
+      border-radius: 12px; font-size: 13px; max-width: 430px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      animation: toastIn .25s ease; margin-bottom: 8px;
+    }
+    .toast.error { background: #b91c1c; }
+    .toast.success { background: #15803d; color: white; }
+    .toast.warning { background: #d97706; color: white; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .google-icon { font-weight: 900; color: #4285f4; }
+
+    /* FOOTER */
+    .site-footer {
+      max-width: 1000px; margin: 20px auto 90px;
+      padding: 18px 16px;
+      text-align: center; color: var(--muted); font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .site-footer strong { color: var(--text); font-weight: 800; }
+
+    /* PERFORMER ANALYTICS */
+    .performer-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1.3fr .8fr .9fr;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .performer-row:last-child { border-bottom: none; }
+    .performer-name { font-weight: 800; }
+    .performer-email, .performer-country, .performer-time {
+      color: var(--muted); word-break: break-all;
+    }
+    @media (max-width: 600px) {
+      .performer-row {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 4px;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .form-row.two { grid-template-columns: 1fr 1fr; }
+      .task-meta { grid-template-columns: repeat(4, 1fr); }
+      .bottom-nav {
+        left: 50%; right: auto; transform: translateX(-50%);
+        width: min(700px, 100%);
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        border-radius: 18px 18px 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STARTUP LOADER -->
+  <div id="startupLoader">
+    <div class="loader-box">
+      <div class="loader-logo">₦</div>
+      <div class="spinner"></div>
+      <div class="loader-title">Naira Master Console</div>
+      <div class="loader-subtitle">Loading...</div>
+    </div>
+  </div>
+
+  <!-- AUTH -->
+  <section id="authScreen" class="hidden">
+    <div class="auth-container">
+      <div class="brand">
+        <div class="brand-icon">₦</div>
+        <h1>Naira Master</h1>
+        <p>Console</p>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button id="loginTab" class="auth-tab active" onclick="showAuthMode('login')">Login</button>
+          <button id="signupTab" class="auth-tab" onclick="showAuthMode('signup')">Sign Up</button>
+        </div>
+
+        <form id="loginForm" onsubmit="loginUser(event)">
+          <div class="form-group">
+            <label class="label">Email</label>
+            <input id="loginEmail" class="input" type="email" autocomplete="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label class="label">Password</label>
+            <div class="password-wrap">
+              <input id="loginPassword" class="input" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+              <button type="button" class="show-password" onclick="togglePassword('loginPassword', this)">Show</button>
+            </div>
+          </div>
+          <button id="loginBtn" class="btn btn-primary" type="submit">Login</button>
+        </form>
+
+        <form id="signupForm" class="hidden" onsubmit="signupUser(event)">
+          <div class="form-group">
+            <label class="label">Surname / Name</label>
+            <input id="signupSurname" class="input" type="text" autocomplete="name" placeholder="Enter your surname or name" required>
+          </div>
+          <div class="form-group">
+            <label class="label">Email</label>
+            <input id="signupEmail" class="input" type="email" autocomplete="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label class="label">Password</label>
+            <div class="password-wrap">
+              <input id="signupPassword" class="input" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" minlength="6" required oninput="updatePasswordStrength()">
+              <button type="button" class="show-password" onclick="togglePassword('signupPassword', this)">Show</button>
+            </div>
+            <div class="strength">
+              <div class="strength-bar"><div id="strengthFill" class="strength-fill"></div></div>
+              <div id="strengthText" class="strength-text">Password strength</div>
+            </div>
+          </div>
+          <button id="signupBtn" class="btn btn-primary" type="submit">Create Account</button>
+        </form>
+
+        <div class="divider">OR</div>
+
+        <button id="googleBtn" class="btn btn-google" onclick="loginWithGoogle()">
+          <span class="google-icon">G</span> Continue with Google
+        </button>
+
+        <div id="authMessage" class="auth-message"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN APP -->
+  <section id="appScreen" class="hidden">
+    <header class="top-header">
+      <div class="header-inner">
+        <div class="user-info">
+          <div id="headerName" class="user-name">Naira Master</div>
+          <div id="headerEmail" class="user-email">--</div>
+        </div>
+        <div class="balance-mini">
+          <div class="balance-text">
+            <div class="balance-label">Balance</div>
+            <div id="headerBalance" class="balance-value">₦0.00</div>
+          </div>
+          <button id="refreshBalanceBtn" class="icon-btn" onclick="refreshBalance()" title="Refresh balance">↻</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- TOP UP — Squad Add Money restored -->
+      <section id="pageTopup" class="page active">
+        <div class="page-title">Top Up</div>
+        <div class="page-subtitle">Add money to your Naira Master wallet.</div>
+
+        <div class="card balance-card">
+          <div class="balance-label">Available Balance</div>
+          <div id="bigBalance" class="big-balance">₦0.00</div>
+          <div class="balance-actions">
+            <button class="btn white-btn" onclick="openTopupModal()">+ Add Money</button>
+            <button id="refreshWalletBtn" class="btn outline-white" onclick="refreshBalance()">Refresh</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Automated Payment</div>
+          <p style="color:var(--muted);font-size:13px;line-height:1.6;">
+            Use Squad automated payment to fund your wallet.
+            The minimum amount is ₦100.
+          </p>
+        </div>
+      </section>
+
+      <!-- CREATE TASK -->
+      <section id="pageTask" class="page">
+        <div class="page-title">Create Task</div>
+        <div class="page-subtitle">
+          Create a task that will go live in Naira Master after ₦1,000 is deducted from your wallet.
+        </div>
+
+        <div class="card">
+          <div class="fee-box">
+            <div class="fee-line">
+              <span>Task creation fee</span>
+              <strong>₦1,000.00</strong>
+            </div>
+            <div class="fee-line" style="margin-top:8px;">
+              <span style="color:var(--muted);font-size:12px;">Max performers</span>
+              <strong style="font-size:14px;">20 users</strong>
+            </div>
+            <div class="fee-line" style="margin-top:4px;">
+              <span style="color:var(--muted);font-size:12px;">Reward per performer</span>
+              <strong style="font-size:14px;">₦35.00</strong>
+            </div>
+          </div>
+
+          <form onsubmit="createTask(event)">
+            <div class="form-group">
+              <label class="label">Task Title</label>
+              <input id="taskTitle" class="input" type="text" placeholder="Example: Like my Facebook post" required>
+            </div>
+            <div class="form-group">
+              <label class="label">Description</label>
+              <textarea id="taskDescription" class="textarea" placeholder="Explain exactly what the performer should do." required></textarea>
+            </div>
+            <div class="form-row two">
+              <div class="form-group">
+                <label class="label">Category</label>
+                <select id="taskCategory" class="select" required>
+                  <option value="">Select category</option>
+                  <option value="Like">Like</option>
+                  <option value="Follow">Follow</option>
+                  <option value="Comment">Comment</option>
+                  <option value="Share">Share</option>
+                  <option value="Link">Link</option>
+                  <option value="Refer">Refer</option>
+                  <option value="Download">Download</option>
+                  <option value="Play Game">Play Game</option>
+                  <option value="Watch Video">Watch Video</option>
+                  <option value="Screenshot">Screenshot</option>
+                  <option value="Subscribe">Subscribe</option>
+                  <option value="Sign Up">Sign Up</option>
+                  <option value="Login">Login</option>
+                  <option value="Add to Home Screen">Add to Home Screen</option>
+                  <option value="Visit">Visit</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="label">Social Network</label>
+                <select id="taskSocial" class="select" onchange="handleOtherSocial()" required>
+                  <option value="">Select network</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="WhatsApp">WhatsApp</option>
+                  <option value="TikTok">TikTok</option>
+                  <option value="Instagram">Instagram</option>
+                  <option value="Twitter (X)">Twitter (X)</option>
+                  <option value="YouTube">YouTube</option>
+                  <option value="LinkedIn">LinkedIn</option>
+                  <option value="Reddit">Reddit</option>
+                  <option value="Website">Website</option>
+                  <option value="Global">Global</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="otherSocialWrap" class="form-group hidden">
+              <label class="label">Other Social Network</label>
+              <input id="otherSocial" class="input" type="text" placeholder="Enter social network">
+            </div>
+
+            <div class="form-group">
+              <label class="label">Task Link</label>
+              <input id="taskLink" class="input" type="url" placeholder="https://..." required>
+            </div>
+
+            <div class="form-group">
+              <label class="label">Max Performers (auto)</label>
+              <input id="taskMaxPerformers" class="input" type="number" value="20" readonly style="background:var(--bg);cursor:not-allowed;">
+            </div>
+
+            <button id="createTaskBtn" class="btn btn-primary" type="submit">
+              Create Task — Deduct ₦1,000.00
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <button class="btn btn-secondary" onclick="showMyTasks()">📊 My Task</button>
+        </div>
+
+        <div id="myTasksContainer"></div>
+      </section>
+
+      <!-- TRANSACTIONS -->
+      <section id="pageTransactions" class="page">
+        <div class="page-title">Transactions</div>
+        <div class="page-subtitle">All money in and money out — every record.</div>
+        <div class="card">
+          <div id="transactionsContainer">
+            <div class="empty">
+              <div class="empty-icon">💳</div>
+              Loading transactions...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="pageSettings" class="page">
+        <div class="page-title">Settings</div>
+        <div class="page-subtitle">Manage your Naira Master Console account.</div>
+
+        <div class="card">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:15px;">
+            <div style="width:50px;height:50px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;" id="settingsAvatar">N</div>
+            <div>
+              <div id="settingsName" style="font-weight:900;">--</div>
+              <div id="settingsEmail" style="color:var(--muted);font-size:12px;margin-top:3px;">--</div>
+            </div>
+          </div>
+
+          <div class="settings-item" style="cursor:default;">
+            <div>
+              <div class="settings-title">Appearance</div>
+              <div class="settings-subtitle">Switch between light and dark mode</div>
+            </div>
+            <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+              <span class="thumb"></span>
+            </button>
+          </div>
+
+          <button class="settings-item" onclick="window.location.href='https://nairamaster.name.ng'">
+            <div>
+              <div class="settings-title">Go to Main App</div>
+              <div class="settings-subtitle">Open Naira Master</div>
+            </div>
+            <span>›</span>
+          </button>
+
+          <button class="settings-item" onclick="refreshBalance()">
+            <div>
+              <div class="settings-title">Refresh Balance</div>
+              <div class="settings-subtitle">Get your latest wallet balance</div>
+            </div>
+            <span>↻</span>
+          </button>
+
+          <button class="settings-item danger-btn" onclick="logoutUser()">
+            <div>
+              <div class="settings-title">Sign Out</div>
+              <div class="settings-subtitle">Sign out of Naira Master Console</div>
+            </div>
+            <span>↪</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+      <div class="nav-inner">
+        <button id="navTopup" class="nav-btn active" onclick="showPage('topup')">
+          <span class="nav-icon">₦</span><span>Top Up</span>
+        </button>
+        <button id="navTask" class="nav-btn" onclick="showPage('task')">
+          <span class="nav-icon">＋</span><span>Create Task</span>
+        </button>
+        <button id="navTransactions" class="nav-btn" onclick="showPage('transactions')">
+          <span class="nav-icon">▤</span><span>Transaction</span>
+        </button>
+        <button id="navSettings" class="nav-btn" onclick="showPage('settings')">
+          <span class="nav-icon">⚙</span><span>Settings</span>
+        </button>
+      </div>
+    </nav>
+  </section>
+
+  <footer class="site-footer">
+    Powered by <strong>GTCO</strong> · Secured by <strong>Henry Global Tech</strong>
+  </footer>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    /* =========================================================
+       CONFIG
+    ========================================================== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyBhxYg140CQePqQvxqxwxAN9znbwhZuCDU",
+      authDomain: "hgt-naira-master.firebaseapp.com",
+      projectId: "hgt-naira-master",
+      storageBucket: "hgt-naira-master.firebasestorage.app",
+      messagingSenderId: "709693242234",
+      appId: "1:709693242234:web:3df7554781e3b5f465f4c3",
+      measurementId: "G-JJK4G9406L"
+    };
+
+    const PAYMENT_API_BASE = "https://nairamaster.onrender.com";
+    const TASK_CREATION_FEE = 1000;
+    const MAX_PERFORMERS = 20;
+    const REWARD_PER_PERFORMER = 35;
+    const DUPLICATE_BLOCK_MS = 3 * 60 * 1000;      // 3 minutes block
+    const DUPLICATE_WARN_MS  = 24 * 60 * 60 * 1000; // 24 hours warn
+    const MIN_TOPUP = 100;
+
+    let auth = null, db = null;
+    let currentUser = null;
+    let balanceUnsubscribe = null;
+    let paymentPollTimer = null;
+    let startupFinished = false;
+
+    /* =========================================================
+       STARTUP SAFETY
+    ========================================================== */
+    function finishStartup() {
+      if (startupFinished) return;
+      startupFinished = true;
+      const loader = document.getElementById("startupLoader");
+      if (loader) {
+        loader.classList.add("hide");
+        setTimeout(() => { loader.style.display = "none"; }, 400);
+      }
+    }
+
+    setTimeout(() => {
+      finishStartup();
+      if (!currentUser) document.getElementById("authScreen")?.classList.remove("hidden");
+    }, 2500);
+
+    /* =========================================================
+       FIREBASE INIT
+    ========================================================== */
+    try {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
+      db = firebase.firestore();
+    } catch (error) {
+      console.error("Firebase init error:", error);
+      showAuthError("Unable to initialize the account system. Please refresh.");
+      document.getElementById("authScreen")?.classList.remove("hidden");
+      finishStartup();
+    }
+
+    if (auth) {
+      auth.onAuthStateChanged(async user => {
+        currentUser = user || null;
+        if (user) await openApplication(user);
+        else closeApplication();
+        finishStartup();
+      });
+    }
+
+    /* =========================================================
+       OPEN / CLOSE
+    ========================================================== */
+    async function openApplication(user) {
+      document.getElementById("authScreen")?.classList.add("hidden");
+      document.getElementById("appScreen")?.classList.remove("hidden");
+
+      const name = user.displayName || user.email?.split("@")[0] || "Naira Master User";
+
+      document.getElementById("headerName").textContent = name;
+      document.getElementById("headerEmail").textContent = user.email || "";
+      document.getElementById("settingsName").textContent = name;
+      document.getElementById("settingsEmail").textContent = user.email || "";
+      document.getElementById("settingsAvatar").textContent = name.charAt(0).toUpperCase();
+
+      ensureUserDocument(user).catch(e => console.warn("User doc:", e));
+      subscribeToBalance(user);
+      loadTransactions();
+      loadMyTasks();
+    }
+
+    function closeApplication() {
+      if (balanceUnsubscribe) { try { balanceUnsubscribe(); } catch (_) {} balanceUnsubscribe = null; }
+      if (paymentPollTimer) { clearInterval(paymentPollTimer); paymentPollTimer = null; }
+      document.getElementById("appScreen")?.classList.add("hidden");
+      document.getElementById("authScreen")?.classList.remove("hidden");
+    }
+
+    async function ensureUserDocument(user) {
+      if (!db || !user) return;
+      const ref = db.collection("users").doc(user.uid);
+      const snap = await ref.get();
+      const existing = snap.exists ? snap.data() : {};
+      const name = user.displayName || existing.name || existing.displayName || user.email?.split("@")[0] || "Naira Master User";
+      await ref.set({
+        uid: user.uid,
+        email: user.email || existing.email || "",
+        name: name,
+        displayName: name,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+
+    /* =========================================================
+       AUTH
+    ========================================================== */
+    function showAuthMode(mode) {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const loginTab = document.getElementById("loginTab");
+      const signupTab = document.getElementById("signupTab");
+      if (mode === "signup") {
+        loginForm.classList.add("hidden"); signupForm.classList.remove("hidden");
+        loginTab.classList.remove("active"); signupTab.classList.add("active");
+      } else {
+        signupForm.classList.add("hidden"); loginForm.classList.remove("hidden");
+        signupTab.classList.remove("active"); loginTab.classList.add("active");
+      }
+      clearAuthMessage();
+    }
+
+    function togglePassword(id, button) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      if (input.type === "password") { input.type = "text"; button.textContent = "Hide"; }
+      else { input.type = "password"; button.textContent = "Show"; }
+    }
+
+    function updatePasswordStrength() {
+      const password = document.getElementById("signupPassword").value;
+      const fill = document.getElementById("strengthFill");
+      const text = document.getElementById("strengthText");
+      if (!password) { fill.style.width = "0"; text.textContent = "Password strength"; return; }
+      let score = 0;
+      if (password.length >= 6) score++;
+      if (password.length >= 10) score++;
+      if (/[A-Z]/.test(password)) score++;
+      if (/[0-9]/.test(password)) score++;
+      if (/[^A-Za-z0-9]/.test(password)) score++;
+      if (score <= 1) { fill.style.width = "25%"; fill.style.background = "#dc2626"; text.textContent = "Weak"; }
+      else if (score <= 3) { fill.style.width = "60%"; fill.style.background = "#d97706"; text.textContent = "Fair"; }
+      else { fill.style.width = "100%"; fill.style.background = "#16a34a"; text.textContent = "Strong"; }
+    }
+
+    async function loginUser(event) {
+      event.preventDefault();
+      if (!auth) { showAuthError("Auth system not ready. Please refresh."); return; }
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      if (!email || !password) { showAuthError("Enter your email and password."); return; }
+      setButtonLoading("loginBtn", true, "Logging in...");
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        console.error(error);
+        showAuthError(firebaseAuthError(error));
+      } finally {
+        setButtonLoading("loginBtn", false, "Login");
+      }
+    }
+
+    async function signupUser(event) {
+      event.preventDefault();
+      if (!auth) { showAuthError("Auth system not ready. Please refresh."); return; }
+      const surname = document.getElementById("signupSurname").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+      if (!surname) { showAuthError("Enter your surname or name."); return; }
+      if (password.length < 6) { showAuthError("Password must be at least 6 characters."); return; }
+      setButtonLoading("signupBtn", true, "Creating account...");
+      try {
+        const credential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = credential.user;
+        await user.updateProfile({ displayName: surname });
+        await db.collection("users").doc(user.uid).set({
+          uid: user.uid,
+          email: user.email,
+          name: surname,
+          displayName: surname,
+          surname: surname,
+          balance: 0,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      } catch (error) {
+        console.error(error);
+        if (error.code === "auth/email-already-in-use") showAuthError("This email already exists. Please log in.");
+        else showAuthError(firebaseAuthError(error));
+      } finally {
+        setButtonLoading("signupBtn", false, "Create Account");
+      }
+    }
+
+    async function loginWithGoogle() {
+      if (!auth) { showAuthError("Auth system not ready."); return; }
+      const button = document.getElementById("googleBtn");
+      button.disabled = true;
+      button.innerHTML = '<span class="mini-spinner"></span> Connecting...';
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithRedirect(provider);
+      } catch (error) {
+        console.error(error);
+        button.disabled = false;
+        button.innerHTML = '<span class="google-icon">G</span> Continue with Google';
+        showAuthError(firebaseAuthError(error));
+      }
+    }
+
+    if (auth) {
+      auth.getRedirectResult().then(result => {
+        if (result && result.user) { /* welcome handled by onAuthStateChanged */ }
+      }).catch(error => {
+        if (error && error.code !== "auth/no-auth-event") {
+          console.error("Google redirect:", error);
+          showAuthError(firebaseAuthError(error));
+        }
+      });
+    }
+
+    async function logoutUser() {
+      if (!auth) return;
+      try { await auth.signOut(); toast("Signed out.", "success"); }
+      catch { toast("Unable to sign out.", "error"); }
+    }
+
+    function firebaseAuthError(error) {
+      const code = error?.code || "";
+      switch (code) {
+        case "auth/invalid-email": return "The email address is not valid.";
+        case "auth/user-not-found": return "No account exists with this email.";
+        case "auth/wrong-password": return "Incorrect password.";
+        case "auth/invalid-credential": return "Incorrect email or password.";
+        case "auth/email-already-in-use": return "This email already exists.";
+        case "auth/weak-password": return "Password is too weak.";
+        case "auth/too-many-requests": return "Too many attempts. Try again later.";
+        case "auth/network-request-failed": return "Network error. Check your connection.";
+        case "auth/unauthorized-domain": return "This website is not authorized in Firebase.";
+        case "auth/popup-blocked": return "The browser blocked the Google sign-in.";
+        default: return error?.message || "Authentication failed.";
+      }
+    }
+
+    function showAuthError(message) {
+      const el = document.getElementById("authMessage");
+      if (!el) return;
+      el.className = "auth-message error";
+      el.textContent = message;
+    }
+
+    function clearAuthMessage() {
+      const el = document.getElementById("authMessage");
+      if (!el) return;
+      el.className = "auth-message";
+      el.textContent = "";
+    }
+
+    function setButtonLoading(id, loading, text) {
+      const button = document.getElementById(id);
+      if (!button) return;
+      button.disabled = loading;
+      if (loading) button.innerHTML = '<span class="mini-spinner"></span>' + text;
+      else button.textContent = text;
+    }
+
+    function setElementLoading(element, loading, text) {
+      if (!element) return;
+      element.disabled = loading;
+      if (loading) element.innerHTML = '<span class="mini-spinner"></span>' + text;
+      else element.textContent = text;
+    }
+
+    /* =========================================================
+       BALANCE
+    ========================================================== */
+    function getUserBalance(data) {
+      if (!data) return 0;
+      if (typeof data.balance === "number") return data.balance;
+      if (typeof data.walletBalance === "number") return data.walletBalance;
+      if (data.wallet && typeof data.wallet.balance === "number") return data.wallet.balance;
+      return 0;
+    }
+
+    function formatNaira(amount) {
+      const n = Number(amount) || 0;
+      return "₦" + n.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function subscribeToBalance(user) {
+      if (!db || !user) return;
+      if (balanceUnsubscribe) { try { balanceUnsubscribe(); } catch (_) {} }
+      balanceUnsubscribe = db.collection("users").doc(user.uid).onSnapshot(
+        snapshot => {
+          const data = snapshot.exists ? snapshot.data() : {};
+          updateBalanceUI(getUserBalance(data));
+        },
+        error => console.warn("Balance listener:", error)
+      );
+    }
+
+    function updateBalanceUI(balance) {
+      const formatted = formatNaira(balance);
+      const h = document.getElementById("headerBalance");
+      const b = document.getElementById("bigBalance");
+      if (h) h.textContent = formatted;
+      if (b) b.textContent = formatted;
+    }
+
+    async function refreshBalance() {
+      if (!currentUser || !db) return;
+      const headerBtn = document.getElementById("refreshBalanceBtn");
+      const walletBtn = document.getElementById("refreshWalletBtn");
+      if (headerBtn) { headerBtn.classList.add("loading"); headerBtn.disabled = true; }
+      if (walletBtn) setElementLoading(walletBtn, true, "Refreshing...");
+      showRefreshingModal(true);
+      try {
+        const snapshot = await db.collection("users").doc(currentUser.uid).get();
+        const data = snapshot.exists ? snapshot.data() : {};
+        updateBalanceUI(getUserBalance(data));
+        toast("Wallet refreshed.", "success");
+      } catch (error) {
+        console.error(error);
+        toast("Unable to refresh balance.", "error");
+      } finally {
+        if (headerBtn) { headerBtn.classList.remove("loading"); headerBtn.disabled = false; }
+        if (walletBtn) setElementLoading(walletBtn, false, "Refresh");
+        showRefreshingModal(false);
+      }
+    }
+
+    function showRefreshingModal(show) {
+      const existing = document.getElementById("refreshingModal");
+      if (existing) existing.remove();
+      if (!show) return;
+      const modal = document.createElement("div");
+      modal.id = "refreshingModal";
+      modal.className = "modal-overlay";
+      modal.innerHTML = `
+        <div class="modal" style="text-align:center;">
+          <div class="spinner" style="width:48px;height:48px;border-width:5px;margin-bottom:16px;"></div>
+          <div style="font-weight:900;font-size:18px;">Refreshing...</div>
+          <div style="color:var(--muted);font-size:13px;margin-top:6px;">Fetching your real balance</div>
+        </div>`;
+      document.body.appendChild(modal);
+    }
+
+    /* =========================================================
+       NAV
+    ========================================================== */
+    function showPage(page) {
+      const pages = ["topup", "task", "transactions", "settings"];
+      pages.forEach(name => {
+        const el = document.getElementById("page" + name.charAt(0).toUpperCase() + name.slice(1));
+        if (el) el.classList.toggle("active", name === page);
+      });
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      const nav = document.getElementById("nav" + page.charAt(0).toUpperCase() + page.slice(1));
+      if (nav) nav.classList.add("active");
+      if (page === "transactions") loadTransactions();
+      if (page === "task") loadMyTasks();
+    }
+
+    /* =========================================================
+       ADD MONEY (SQUAD / GTCO)
+    ========================================================== */
+    function openTopupModal() {
+      const existing = document.getElementById("topupModal");
+      if (existing) existing.remove();
+
+      const modal = document.createElement("div");
+      modal.id = "topupModal";
+      modal.className = "modal-overlay";
+      modal.innerHTML = `
+        <div class="modal">
+          <div class="modal-title">Add Money</div>
+          <div class="modal-subtitle">Enter the amount you want to add. Minimum amount is ₦100.</div>
+          <div class="form-group">
+            <label class="label">Amount (₦)</label>
+            <input id="topupAmount" class="input" type="number" min="100" step="1" placeholder="Minimum ₦100">
+          </div>
+          <button id="topupContinueBtn" class="btn btn-primary" onclick="startTopup()">Continue to payment</button>
+          <button class="btn btn-secondary" style="margin-top:8px;" onclick="closeModal('topupModal')">Cancel</button>
+        </div>`;
+      document.body.appendChild(modal);
+      setTimeout(() => document.getElementById("topupAmount")?.focus(), 100);
+    }
+
+    async function startTopup() {
+      if (!currentUser) { toast("Please log in first.", "error"); return; }
+      const input = document.getElementById("topupAmount");
+      const amount = Number(input.value);
+      if (!Number.isFinite(amount) || amount < MIN_TOPUP) {
+        toast(`Minimum top up amount is ₦${MIN_TOPUP}.`, "error");
+        return;
+      }
+
+      const button = document.getElementById("topupContinueBtn");
+      setElementLoading(button, true, "Preparing payment...");
+
+      try {
+        const token = await currentUser.getIdToken(true);
+        const response = await fetch(PAYMENT_API_BASE + "/api/payments/add-money", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+          body: JSON.stringify({
+            amount: amount,
+            customerName: currentUser.displayName || currentUser.email?.split("@")[0] || "Naira Master User",
+            email: currentUser.email || ""
+          })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || "Unable to create payment.");
+
+        closeModal("topupModal");
+
+        const paymentWindow = window.open(result.checkoutUrl, "_blank");
+        if (!paymentWindow) { window.location.href = result.checkoutUrl; return; }
+
+        toast("Payment page opened. Complete the payment.", "success");
+        pollPayment(result.reference, "wallet_funding", result.amount);
+      } catch (error) {
+        console.error(error);
+        toast(error.message || "Unable to start payment.", "error");
+      } finally {
+        setElementLoading(button, false, "Continue to payment");
+      }
+    }
+
+    function pollPayment(reference, purpose, amount) {
+      if (paymentPollTimer) clearInterval(paymentPollTimer);
+      let attempts = 0;
+      const maxAttempts = 200;
+
+      paymentPollTimer = setInterval(async () => {
+        attempts++;
+        if (attempts > maxAttempts) {
+          clearInterval(paymentPollTimer); paymentPollTimer = null;
+          showPaymentResult(false, amount, purpose, reference, "Payment status could not be confirmed yet.");
+          return;
+        }
+        try {
+          if (!currentUser) return;
+          const token = await currentUser.getIdToken(true);
+          const response = await fetch(
+            PAYMENT_API_BASE + "/api/payments/status/" + encodeURIComponent(reference),
+            { method: "GET", headers: { "Authorization": "Bearer " + token } }
+          );
+          if (!response.ok) return;
+          const result = await response.json();
+
+          if (result.status === "successful" ||
+              (result.credited === true && purpose === "wallet_funding") ||
+              (result.taskCreated === true && purpose === "task_creation")) {
+            clearInterval(paymentPollTimer); paymentPollTimer = null;
+
+            // Log credit into transactions history
+            if (purpose === "wallet_funding" && currentUser) {
+              await logTransaction({
+                type: "add_money",
+                purpose: "Wallet Funding",
+                amount: result.amount || amount,
+                status: "successful",
+                reference: reference,
+                description: "Wallet funded via Squad",
+                direction: "in"
+              });
+            }
+
+            showPaymentResult(true, result.amount || amount, purpose, reference, "Payment successful.", result);
+            refreshBalance();
+            loadTransactions();
+            return;
+          }
+
+          if (result.status === "failed" || result.status === "cancelled") {
+            clearInterval(paymentPollTimer); paymentPollTimer = null;
+            showPaymentResult(false, result.amount || amount, purpose, reference, "Transaction failed.");
+          }
+        } catch (error) {
+          console.warn("Payment polling:", error);
+        }
+      }, 3000);
+    }
+
+    function showPaymentResult(success, amount, purpose, reference, message, result = {}) {
+      const modal = document.createElement("div");
+      modal.className = "modal-overlay";
+      const purposeText = purpose === "task_creation" ? "Task Creation" : "Wallet Funding";
+      modal.innerHTML = `
+        <div class="modal">
+          <div class="status-check ${success ? "success" : "fail"}">${success ? "✓" : "✕"}</div>
+          <div style="text-align:center;font-size:21px;font-weight:900;">${success ? "Transaction Successful" : "Transaction Failed"}</div>
+          <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:7px;">${escapeHtml(message)}</div>
+          <div class="payment-info">
+            <div class="payment-line"><span>Status</span><strong>${success ? "Successful" : "Failed"}</strong></div>
+            <div class="payment-line"><span>Amount</span><strong>${formatNaira(amount)}</strong></div>
+            <div class="payment-line"><span>Purpose</span><strong>${purposeText}</strong></div>
+            <div class="payment-line"><span>Reference</span><strong>${escapeHtml(reference)}</strong></div>
+            <div class="payment-line"><span>Time</span><strong>${new Date().toLocaleString("en-NG")}</strong></div>
+          </div>
+          <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">Done</button>
+        </div>`;
+      document.body.appendChild(modal);
+    }
+
+    /* =========================================================
+       TRANSACTION LOG HELPER
+    ========================================================== */
+    async function logTransaction({ type, purpose, amount, status = "successful", reference = "", description = "", direction = "out", taskId = null, balanceAfter = null }) {
+      if (!currentUser || !db) return;
+      try {
+        await db.collection("transactions").add({
+          uid: currentUser.uid,
+          userId: currentUser.uid,
+          type: type,
+          purpose: purpose,
+          amount: Number(amount) || 0,
+          status: status,
+          reference: reference || ("TXN_" + Date.now()),
+          description: description,
+          direction: direction,
+          taskId: taskId,
+          balanceAfter: balanceAfter,
+          createdAt: new Date().toISOString()
+        });
+      } catch (e) { console.warn("logTransaction:", e); }
+    }
+
+    /* =========================================================
+       CREATE TASK
+    ========================================================== */
+    function handleOtherSocial() {
+      const value = document.getElementById("taskSocial").value;
+      document.getElementById("otherSocialWrap").classList.toggle("hidden", value !== "Others");
+    }
+
+    async function createTask(event) {
+      event.preventDefault();
+      if (!currentUser) { toast("Please log in first.", "error"); return; }
+
+      const title = document.getElementById("taskTitle").value.trim();
+      const description = document.getElementById("taskDescription").value.trim();
+      const category = document.getElementById("taskCategory").value;
+      let socialMedia = document.getElementById("taskSocial").value;
+      const link = document.getElementById("taskLink").value.trim();
+
+      if (!title || !description || !category || !socialMedia || !link) {
+        toast("Please complete all task fields.", "error");
+        return;
+      }
+      if (socialMedia === "Others") {
+        socialMedia = document.getElementById("otherSocial").value.trim();
+        if (!socialMedia) { toast("Enter the social network name.", "error"); return; }
+      }
+      try { new URL(link); } catch (_) { toast("Enter a valid task link.", "error"); return; }
+
+      const button = document.getElementById("createTaskBtn");
+      setElementLoading(button, true, "Checking wallet...");
+
+      try {
+        /* 1. DUPLICATE CHECK — same title + link */
+        const dupeCheck = await checkDuplicateTask(title, link);
+        if (dupeCheck.blocked) {
+          setElementLoading(button, false, `Create Task — Deduct ${formatNaira(TASK_CREATION_FEE)}`);
+          showTaskResultModal(false, {
+            title: "Duplicate Task Blocked",
+            message: `You created the same task ${dupeCheck.minutesAgo} minute(s) ago. Please wait at least 3 minutes before creating it again.`,
+            amount: 0,
+            taskId: dupeCheck.taskId
+          });
+          return;
+        }
+
+        /* 2. WALLET CHECK */
+        const userRef = db.collection("users").doc(currentUser.uid);
+        const snap = await userRef.get();
+        const data = snap.exists ? snap.data() : {};
+        const balance = getUserBalance(data);
+
+        if (balance < TASK_CREATION_FEE) {
+          setElementLoading(button, false, `Create Task — Deduct ${formatNaira(TASK_CREATION_FEE)}`);
+          showTaskResultModal(false, {
+            title: "Insufficient Balance",
+            message: `You need ${formatNaira(TASK_CREATION_FEE)} to create a task. Your current balance is ${formatNaira(balance)}. Please top up your wallet.`,
+            amount: 0
+          });
+          return;
+        }
+
+        /* 3. DUPLICATE WARNING (24h) — user confirms */
+        if (dupeCheck.warned) {
+          const proceed = await confirmDialog(
+            "Possible Duplicate",
+            `You already created a similar task ${dupeCheck.hoursAgo} hour(s) ago. Do you still want to create this task? ${formatNaira(TASK_CREATION_FEE)} will be deducted.`
+          );
+          if (!proceed) {
+            setElementLoading(button, false, `Create Task — Deduct ${formatNaira(TASK_CREATION_FEE)}`);
+            return;
+          }
+        }
+
+        setElementLoading(button, true, "Creating task...");
+
+        /* 4. DEDUCT FEE */
+        await userRef.update({
+          balance: firebase.firestore.FieldValue.increment(-TASK_CREATION_FEE),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const newBalance = balance - TASK_CREATION_FEE;
+
+        /* 5. WRITE TASK */
+        const taskDoc = {
+          title, description, link, socialMedia, category,
+          tags: [],
+          maxPerformers: MAX_PERFORMERS,
+          reward: REWARD_PER_PERFORMER,
+          performerCount: 0,
+          successCount: 0,
+          status: "active",
+          visibility: "all",
+          tier: "all",
+          uploadedByUserId: currentUser.uid,
+          uploadedByAdmin: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        const docRef = await db.collection("tasks").add(taskDoc);
+        await db.collection("tasks").doc(docRef.id).update({ taskId: docRef.id });
+
+        /* 6. LOG TRANSACTION */
+        await logTransaction({
+          type: "task_creation",
+          purpose: "Task Creation Fee",
+          amount: TASK_CREATION_FEE,
+          status: "successful",
+          reference: "TASK_" + docRef.id,
+          description: `Task creation — ${title}`,
+          direction: "out",
+          taskId: docRef.id,
+          balanceAfter: newBalance
+        });
+
+        /* 7. SUCCESS MODAL */
+        showTaskResultModal(true, {
+          title: "Task Created Successfully",
+          message: "Your task is now live in Naira Master.",
+          amount: TASK_CREATION_FEE,
+          taskId: docRef.id,
+          balanceAfter: newBalance,
+          reference: "TASK_" + docRef.id
+        });
+
+        // Reset form
+        document.getElementById("taskTitle").value = "";
+        document.getElementById("taskDescription").value = "";
+        document.getElementById("taskCategory").value = "";
+        document.getElementById("taskSocial").value = "";
+        document.getElementById("taskLink").value = "";
+        document.getElementById("otherSocialWrap").classList.add("hidden");
+
+        await refreshBalance();
+        loadTransactions();
+        loadMyTasks();
+
+      } catch (error) {
+        console.error(error);
+        showTaskResultModal(false, {
+          title: "Task Failed",
+          message: error.message || "Unable to create task. Please try again.",
+          amount: 0
+        });
+      } finally {
+        setElementLoading(button, false, `Create Task — Deduct ${formatNaira(TASK_CREATION_FEE)}`);
+      }
+    }
+
+    /* =========================================================
+       DUPLICATE DETECTION
+    ========================================================== */
+    async function checkDuplicateTask(title, link) {
+      const result = { blocked: false, warned: false, taskId: null, minutesAgo: 0, hoursAgo: 0 };
+      if (!currentUser || !db) return result;
+
+      try {
+        const snapshot = await db.collection("tasks")
+          .where("uploadedByUserId", "==", currentUser.uid)
+          .limit(30)
+          .get();
+
+        const now = Date.now();
+        const sameTitleLink = snapshot.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(t => (t.status !== "deleted") &&
+                       String(t.title || "").trim().toLowerCase() === title.toLowerCase() &&
+                       String(t.link || "").trim() === link);
+
+        if (sameTitleLink.length === 0) return result;
+
+        // Sort newest first
+        sameTitleLink.sort((a, b) => getMillis(b.createdAt) - getMillis(a.createdAt));
+        const latest = sameTitleLink[0];
+        const diff = now - getMillis(latest.createdAt);
+
+        if (diff < DUPLICATE_BLOCK_MS) {
+          result.blocked = true;
+          result.taskId = latest.taskId || latest.id;
+          result.minutesAgo = Math.max(1, Math.round(diff / 60000));
+          return result;
+        }
+        if (diff < DUPLICATE_WARN_MS) {
+          result.warned = true;
+          result.taskId = latest.taskId || latest.id;
+          result.hoursAgo = Math.round(diff / 3600000);
+        }
+      } catch (e) { console.warn("Duplicate check:", e); }
+      return result;
+    }
+
+    /* =========================================================
+       TASK RESULT MODAL (professional success / fail)
+    ========================================================== */
+    function showTaskResultModal(success, opts) {
+      const {
+        title = success ? "Task Created Successfully" : "Task Failed",
+        message = "",
+        amount = 0,
+        taskId = null,
+        balanceAfter = null,
+        reference = null
+      } = opts || {};
+
+      const modal = document.createElement("div");
+      modal.className = "modal-overlay";
+      modal.innerHTML = `
+        <div class="modal">
+          <div class="status-check ${success ? "success" : "fail"}">${success ? "✓" : "✕"}</div>
+          <div style="text-align:center;font-size:22px;font-weight:900;letter-spacing:-.01em;">${escapeHtml(title)}</div>
+          <div style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px;line-height:1.5;">${escapeHtml(message)}</div>
+
+          <div class="payment-info" style="margin-top:18px;">
+            ${taskId ? `<div class="payment-line"><span>Task ID</span><strong>${escapeHtml(taskId)}</strong></div>` : ""}
+            ${amount ? `<div class="payment-line"><span>Amount ${success ? "Deducted" : ""}</span><strong>${formatNaira(amount)}</strong></div>` : ""}
+            ${balanceAfter !== null ? `<div class="payment-line"><span>Balance After</span><strong>${formatNaira(balanceAfter)}</strong></div>` : ""}
+            ${reference ? `<div class="payment-line"><span>Reference</span><strong>${escapeHtml(reference)}</strong></div>` : ""}
+            <div class="payment-line"><span>Time</span><strong>${new Date().toLocaleString("en-NG")}</strong></div>
+          </div>
+
+          <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()">Done</button>
+        </div>`;
+      document.body.appendChild(modal);
+    }
+
+    /* =========================================================
+       CONFIRM DIALOG
+    ========================================================== */
+    function confirmDialog(title, message) {
+      return new Promise(resolve => {
+        const modal = document.createElement("div");
+        modal.className = "modal-overlay";
+        modal.innerHTML = `
+          <div class="modal">
+            <div class="modal-title">${escapeHtml(title)}</div>
+            <div class="modal-subtitle">${escapeHtml(message)}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+              <button class="btn btn-secondary" id="cdNo">Cancel</button>
+              <button class="btn btn-primary" id="cdYes">Continue</button>
+            </div>
+          </div>`;
+        document.body.appendChild(modal);
+        modal.querySelector("#cdYes").onclick = () => { modal.remove(); resolve(true); };
+        modal.querySelector("#cdNo").onclick = () => { modal.remove(); resolve(false); };
+      });
+    }
+
+    /* =========================================================
+       MY TASK + ANALYTICS
+    ========================================================== */
+    async function showMyTasks() {
+      showPage("task");
+      await loadMyTasks();
+      const container = document.getElementById("myTasksContainer");
+      if (container) container.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function loadMyTasks() {
+      const container = document.getElementById("myTasksContainer");
+      if (!container || !currentUser || !db) return;
+
+      container.innerHTML = `
+        <div class="card">
+          <div class="empty"><div class="spinner"></div>Loading My Tasks...</div>
+        </div>`;
+
+      try {
+        let snapshot;
+        try {
+          snapshot = await db.collection("tasks")
+            .where("uploadedByUserId", "==", currentUser.uid)
+            .orderBy("createdAt", "desc")
+            .limit(50).get();
+        } catch (indexError) {
+          console.warn("Ordered query failed; fallback.", indexError);
+          snapshot = await db.collection("tasks")
+            .where("uploadedByUserId", "==", currentUser.uid)
+            .limit(50).get();
+        }
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="card">
+              <div class="empty">
+                <div class="empty-icon">📊</div>
+                You have not created any tasks yet.
+              </div>
+            </div>`;
+          return;
+        }
+
+        const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        tasks.sort((a, b) => getMillis(b.createdAt) - getMillis(a.createdAt));
+
+        // Get submissions for these tasks
+        const taskIds = tasks.map(t => t.taskId || t.id);
+        let submissions = [];
+        if (taskIds.length > 0) {
+          const chunks = [];
+          for (let i = 0; i < taskIds.length; i += 10) chunks.push(taskIds.slice(i, i + 10));
+          for (const chunk of chunks) {
+            try {
+              const subSnap = await db.collection("submissions").where("taskId", "in", chunk).get();
+              submissions.push(...subSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            } catch (e) { console.warn("Submission fetch:", e); }
+          }
+        }
+
+        // Get performer info
+        const performerUids = [...new Set(submissions.map(s => s.userId).filter(Boolean))];
+        const performersMap = {};
+        for (let i = 0; i < performerUids.length; i += 10) {
+          const chunk = performerUids.slice(i, i + 10);
+          if (chunk.length === 0) continue;
+          try {
+            const uSnap = await db.collection("users").where("uid", "in", chunk).get();
+            uSnap.docs.forEach(d => { const dd = d.data(); performersMap[dd.uid] = dd; });
+          } catch (e) { console.warn("Users fetch:", e); }
+        }
+
+        container.innerHTML = `
+          <div class="section-title" style="margin:18px 0 10px;">My Task Analytics</div>
+          ${tasks.map(t => renderTaskCard(t, submissions, performersMap)).join("")}
+        `;
+
+      } catch (error) {
+        console.error("My Tasks error:", error);
+        container.innerHTML = `
+          <div class="card">
+            <div class="empty">
+              <div class="empty-icon">⚠️</div>
+              Unable to load your tasks.
+            </div>
+          </div>`;
+      }
+    }
+
+    function renderTaskCard(task, allSubmissions, performersMap) {
+      const taskId = task.taskId || task.id;
+      const taskSubs = allSubmissions.filter(s => s.taskId === taskId);
+      const approved = taskSubs.filter(s => s.status === "approved");
+      const pending = taskSubs.filter(s => s.status === "pending");
+      const declined = taskSubs.filter(s => s.status === "declined");
+
+      const performers = Number(task.performerCount || taskSubs.length || 0);
+      const maxPerformers = Number(task.maxPerformers || MAX_PERFORMERS);
+      const remaining = Math.max(0, maxPerformers - performers);
+      const percentage = maxPerformers > 0 ? Math.min(100, Math.round((performers / maxPerformers) * 100)) : 0;
+      const rewardPerUser = Number(task.reward || REWARD_PER_PERFORMER);
+      const totalPaid = approved.length * rewardPerUser;
+      const successCount = Number(task.successCount || approved.length || 0);
+
+      const status = String(task.status || "active").toLowerCase();
+      const statusClass = status === "paused" ? "paused" : status === "deleted" ? "deleted" : "";
+
+      return `
+        <div class="card task-card" data-task-id="${escapeHtml(taskId)}">
+          <button class="task-menu-btn" onclick="toggleTaskMenu(event, '${escapeHtml(taskId)}')">⋮</button>
+          <div class="task-menu hidden" id="menu-${escapeHtml(taskId)}">
+            ${status === "paused"
+              ? `<button onclick="resumeTask('${escapeHtml(taskId)}')">▶️ Resume Task</button>`
+              : status === "active"
+                ? `<button onclick="pauseTask('${escapeHtml(taskId)}')">⏸️ Pause Task</button>`
+                : ""
+            }
+            <button class="danger" onclick="deleteTask('${escapeHtml(taskId)}')">🗑️ Delete Task</button>
+          </div>
+
+          <div class="task-top">
+            <div class="task-title" style="max-width:calc(100% - 90px);">${escapeHtml(task.title || "Untitled Task")}</div>
+            <div class="badge ${statusClass}">${escapeHtml(status)}</div>
+          </div>
+
+          <div class="task-description">${escapeHtml(task.description || "")}</div>
+
+          <div class="task-meta">
+            <div class="meta-item"><div class="meta-label">Social Network</div><div class="meta-value">${escapeHtml(task.socialMedia || "-")}</div></div>
+            <div class="meta-item"><div class="meta-label">Category</div><div class="meta-value">${escapeHtml(task.category || "-")}</div></div>
+            <div class="meta-item"><div class="meta-label">Performers</div><div class="meta-value">${performers} / ${maxPerformers}</div></div>
+            <div class="meta-item"><div class="meta-label">Reward / User</div><div class="meta-value">${formatNaira(rewardPerUser)}</div></div>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-head"><span>Progress</span><strong>${percentage}%</strong></div>
+            <div class="progress"><div class="progress-bar" style="width:${percentage}%"></div></div>
+            <div class="progress-head" style="margin-top:6px;"><span>Remaining</span><strong>${remaining} of ${maxPerformers}</strong></div>
+          </div>
+
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="meta-item"><div class="meta-label">Approved</div><div class="meta-value">${approved.length}</div></div>
+            <div class="meta-item"><div class="meta-label">Pending</div><div class="meta-value">${pending.length}</div></div>
+            <div class="meta-item"><div class="meta-label">Declined</div><div class="meta-value">${declined.length}</div></div>
+            <div class="meta-item"><div class="meta-label">Success Count</div><div class="meta-value">${successCount}</div></div>
+            <div class="meta-item"><div class="meta-label">Amount Paid to Users</div><div class="meta-value">${formatNaira(totalPaid)}</div></div>
+            <div class="meta-item"><div class="meta-label">Created</div><div class="meta-value" style="font-size:11px;">${formatDate(task.createdAt)}</div></div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div class="section-title" style="font-size:14px;margin-bottom:8px;">Performers</div>
+            ${taskSubs.length === 0
+              ? `<div style="color:var(--muted);font-size:12px;">No performers yet.</div>`
+              : `
+                <div class="performer-row" style="font-weight:900;color:var(--muted);text-transform:uppercase;font-size:10px;">
+                  <div>Name</div><div>Email</div><div>Country</div><div>Time</div>
+                </div>
+                ${taskSubs.map(s => {
+                  const u = performersMap[s.userId] || {};
+                  const name = (u.name || u.displayName || [u.firstName, u.lastName].filter(Boolean).join(" ") || "Unknown").trim();
+                  const email = u.email || "—";
+                  const country = u.country || (u.location && u.location.country) || "Nigeria";
+                  return `
+                    <div class="performer-row">
+                      <div class="performer-name">${escapeHtml(name)}</div>
+                      <div class="performer-email">${escapeHtml(email)}</div>
+                      <div class="performer-country">${escapeHtml(country)}</div>
+                      <div class="performer-time">${formatDate(s.createdAt)}</div>
+                    </div>`;
+                }).join("")}
+              `}
+          </div>
+        </div>`;
+    }
+
+    /* =========================================================
+       TASK MENU — PAUSE / RESUME / DELETE
+    ========================================================== */
+    function toggleTaskMenu(event, taskId) {
+      event.stopPropagation();
+      // Close any other open menus
+      document.querySelectorAll(".task-menu").forEach(m => {
+        if (m.id !== "menu-" + taskId) m.classList.add("hidden");
+      });
+      const menu = document.getElementById("menu-" + taskId);
+      if (menu) menu.classList.toggle("hidden");
+
+      // Close on outside click
+      setTimeout(() => {
+        document.addEventListener("click", function closeMenu(e) {
+          if (!e.target.closest(".task-card")) {
+            document.querySelectorAll(".task-menu").forEach(m => m.classList.add("hidden"));
+          }
+          document.removeEventListener("click", closeMenu);
+        });
+      }, 10);
+    }
+
+    async function pauseTask(taskId) {
+      if (!confirm("Pause this task? It will stop showing in the main app.")) return;
+      try {
+        await db.collection("tasks").doc(taskId).update({
+          status: "paused",
+          updatedAt: new Date().toISOString()
+        });
+        toast("Task paused.", "success");
+        loadMyTasks();
+      } catch (e) { toast("Unable to pause task.", "error"); }
+    }
+
+    async function resumeTask(taskId) {
+      try {
+        await db.collection("tasks").doc(taskId).update({
+          status: "active",
+          updatedAt: new Date().toISOString()
+        });
+        toast("Task resumed.", "success");
+        loadMyTasks();
+      } catch (e) { toast("Unable to resume task.", "error"); }
+    }
+
+    async function deleteTask(taskId) {
+      if (!confirm("Delete this task? This cannot be undone.")) return;
+      try {
+        await db.collection("tasks").doc(taskId).update({
+          status: "deleted",
+          updatedAt: new Date().toISOString()
+        });
+
+        await logTransaction({
+          type: "task_deleted",
+          purpose: "Task Deleted",
+          amount: 0,
+          status: "successful",
+          reference: "DEL_" + taskId,
+          description: "Task deleted by owner",
+          direction: "none",
+          taskId: taskId
+        });
+
+        toast("Task deleted.", "success");
+        loadMyTasks();
+      } catch (e) { toast("Unable to delete task.", "error"); }
+    }
+
+    /* =========================================================
+       TRANSACTIONS
+    ========================================================== */
+    async function loadTransactions() {
+      const container = document.getElementById("transactionsContainer");
+      if (!container || !currentUser || !db) return;
+
+      container.innerHTML = `<div class="empty"><div class="spinner"></div>Loading transactions...</div>`;
+
+      try {
+        let snapshot;
+        try {
+          snapshot = await db.collection("transactions")
+            .where("uid", "==", currentUser.uid)
+            .orderBy("createdAt", "desc")
+            .limit(100).get();
+        } catch (indexError) {
+          console.warn("Transaction ordered query failed; fallback.", indexError);
+          snapshot = await db.collection("transactions")
+            .where("uid", "==", currentUser.uid)
+            .limit(100).get();
+        }
+
+        if (snapshot.empty) {
+          container.innerHTML = `<div class="empty"><div class="empty-icon">💳</div>No transactions yet.</div>`;
+          return;
+        }
+
+        const transactions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        transactions.sort((a, b) => getMillis(b.createdAt) - getMillis(a.createdAt));
+        container.innerHTML = transactions.map(renderTransaction).join("");
+
+      } catch (error) {
+        console.error("Transactions:", error);
+        container.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div>Unable to load transactions.</div>`;
+      }
+    }
+
+    function renderTransaction(transaction) {
+      const status = String(transaction.status || "").toLowerCase();
+      const successful = status === "successful" || status === "success" || status === "completed";
+      const pending = status === "pending";
+      const amount = Number(transaction.amount || 0);
+
+      const purpose = transaction.purpose || transaction.description || transaction.category || transaction.type || "Transaction";
+      const reference = transaction.reference || transaction.taskId || transaction.id || "-";
+
+      const statusColor = successful ? "var(--primary-dark)" : pending ? "var(--warning)" : "var(--danger)";
+      const statusLabel = successful ? "Successful" : pending ? "Pending" : (transaction.status || "Failed");
+
+      const direction = transaction.direction;
+      const creditTypes = ["credit", "reward", "referral", "approval", "add_money", "topup", "refund"];
+      const isCredit = direction === "in" || creditTypes.includes(String(transaction.type).toLowerCase());
+
+      return `
+        <div class="transaction">
+          <div class="transaction-top">
+            <div>
+              <div class="transaction-purpose">${escapeHtml(purpose)}</div>
+              <div class="transaction-date">${formatDate(transaction.createdAt)}</div>
+            </div>
+            <div class="transaction-amount" style="color:${isCredit ? "var(--primary-dark)" : "var(--danger)"};">
+              ${isCredit ? "+" : "-"}${formatNaira(amount)}
+            </div>
+          </div>
+          <div class="transaction-ref">
+            Status: <strong style="color:${statusColor};">${escapeHtml(statusLabel)}</strong>
+            <br>
+            Reference: ${escapeHtml(reference)}
+            ${transaction.taskId ? `<br>Task: ${escapeHtml(transaction.taskId)}` : ""}
+            ${transaction.balanceAfter !== null && transaction.balanceAfter !== undefined ? `<br>Balance After: ${formatNaira(transaction.balanceAfter)}` : ""}
+          </div>
+        </div>`;
+    }
+
+    /* =========================================================
+       DARK / LIGHT MODE
+    ========================================================== */
+    function applyTheme() {
+      const isDark = localStorage.getItem("nmc_dark") === "true";
+      document.documentElement.classList.toggle("dark", isDark);
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("nmc_dark", String(isDark));
+      toast(isDark ? "Dark mode enabled" : "Light mode enabled", "success");
+    }
+
+    /* =========================================================
+       HELPERS
+    ========================================================== */
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.remove();
+    }
+
+    function toast(message, type = "") {
+      const container = document.getElementById("toastContainer");
+      const item = document.createElement("div");
+      item.className = "toast " + (type || "");
+      item.textContent = message;
+      container.appendChild(item);
+      setTimeout(() => item.remove(), 3500);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function getMillis(value) {
+      if (!value) return 0;
+      if (value && typeof value.toMillis === "function") return value.toMillis();
+      if (value && typeof value.seconds === "number") return value.seconds * 1000;
+      const parsed = Date.parse(value);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
+
+    function formatDate(value) {
+      const millis = getMillis(value);
+      if (!millis) return "Date unavailable";
+      return new Date(millis).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    /* =========================================================
+       INIT
+    ========================================================== */
+    applyTheme();
+  </script>
+</body>
+</html>
